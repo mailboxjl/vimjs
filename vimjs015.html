@@ -1,0 +1,2431 @@
+
+<html>
+<head>
+  <!-- <link rel='stylesheet' href='notepad2C.css' /> -->
+<!-- #####################################################################################
+                                             
+    ,o888888o.       d888888o.      d888888o.   
+   8888     `88.   .`8888:' `88.  .`8888:' `88. 
+,8 8888       `8.  8.`8888.   Y8  8.`8888.   Y8 
+88 8888            `8.`8888.      `8.`8888.     
+88 8888             `8.`8888.      `8.`8888.    
+88 8888              `8.`8888.      `8.`8888.   
+88 8888               `8.`8888.      `8.`8888.  
+`8 8888       .8' 8b   `8.`8888. 8b   `8.`8888. 
+   8888     ,88'  `8b.  ;8.`8888 `8b.  ;8.`8888 
+    `8888888P'     `Y8888P ,88P'  `Y8888P ,88P'  
+                           
+######################################################################################## -->
+
+
+
+<style>
+
+ .sel{
+   color:black;
+   background-color:#77a;
+ }
+
+ body{
+   font-family: Arial, Helvetica, sans-serif;
+   overscroll-behavior: contain;
+   background-color:000;
+ }
+ .main{
+   background-color: #000;
+   height: 100%;
+   padding: 0px;
+ } 
+
+ .main-container{
+   border:0px solid #246ded;
+   width:100%;
+   height: 100%;
+ }
+ .header{
+   background-color: #000;
+   color:#fff;
+   //top:-5px;
+   height: 3%;
+   width: 100%;
+   padding: 0px 0px 5px 0px;
+   position: fixed;
+   top: 0;
+ }
+
+ .content{
+   background-color: #000;
+   height: 87%;
+   width: 97.5%;
+   //border-bottom: 1px #141414 dotted;
+
+   //background-color: #000;
+   border: 1px solid #000;
+   color: #00ff00;
+   padding: 10px;
+   font-family: courier new;
+   position: fixed;
+   top:3%;
+   overflow:overlay;
+ } 
+
+
+ ::placeholder{
+   color:#fff;
+ }
+
+ .txtHeader {
+   font-size: 25px;
+   height: 100%;
+   background-color: transparent;
+   color:#fff;
+   font-family: Verdana, Geneva, Tahoma, sans-serif;
+   border:none;
+   text-align: center;
+   margin: auto;
+   display: inline;
+ }
+
+ .txtHeader:focus,.txtHeader:hover{
+   border:none;
+   background-color: #fff;
+   color:#246ded;
+ } 
+
+ .txtContent{
+   height: 100%;
+   width: 100%;
+   color:#141414;
+   background-color: #fff;
+   word-wrap: break-word;
+   font-family: Arial, Helvetica, sans-serif;
+   padding: 0px;
+   font-size: 18px;
+   border:none;
+   outline: none;
+   margin:0px;
+ }
+
+ .txtContent:focus,.txtContent:hover{
+   border:none !important;
+   background-color: #f7f7f7;
+ } 
+
+ .btn{
+   padding: 5px;
+   margin: 2px;
+   background-color: #246ded;
+   color:#fff;
+   font-size: 18px;
+   border-radius:5px;
+   border:none;
+ }
+
+ .btn:focus,.btn:hover{
+   background-color: #fff;
+   color:#246ded;
+   border:1px #246ded solid;
+ }
+
+/*
+ #txtContent{
+     background-color: #000;
+     border: 1px solid #000;
+     color: #00ff00;
+     padding: 10px;
+     font-family: courier new;
+     
+ }*/
+
+ #viCommand{
+     position: fixed;
+     bottom: 0;
+     width: 100%;
+     background-color: #000;
+     border: 1px solid #fff;
+     color: #fff;
+     padding: 5px;
+     font-family: courier new;
+     margin:0px;
+ }
+
+ #statusBar{
+     width: 98.5%;
+     background-color: #000;
+     border: 1px solid #fff;
+     color: #fff;
+     padding: 5px;
+     font-family: courier new;
+     margin:0px;
+     position: fixed;
+     bottom: 0;
+ }
+
+ #modo{
+   position: absolute;
+   left: 30px;
+   //width: 300px;
+   //border: 3px solid #73AD21;
+   //padding: 10px; 
+ }
+ #pos{
+   position: absolute;
+   margin: 0;
+   left: 50%;
+   //width: 300px;
+   //border: 3px solid #73AD21;
+   //padding: 10px;  
+ }
+ #percentage{
+   position: absolute;
+   right: 20px;
+   //width: 300px;
+   //border: 3px solid #73AD21;
+   //padding: 10px;
+ }
+
+ .center{
+     margin: 0;
+     position: absolute;
+     top: 50%;
+     left: 50%;
+     -ms-transform: translate(-50%, -50%);
+     transform: translate(-50%, -50%);
+ }
+
+ .floating_div_class{
+     height: 100%; /*necesario para que funcione el scrollbar */
+     width: 100%;  
+     position: fixed;
+     z-index: 1;
+     top: 0;
+     left: 0;
+     //background-color: rgb(0,0,0);
+     background-color: rgba(0,0,0, 0.9);
+     color:white;
+     //overflow-x: hidden;
+     //transition: 0.5s;
+     overflow:scroll; /*necesario para que haya un scrollbar*/
+ }
+
+
+ .highlight:hover{
+    background-color: yellow;
+    background-color: rgba(255,0,0, 0.5);
+
+
+ }
+
+
+
+</style>
+
+<title id="id_title"> Untitled File  </title>
+
+
+</head>
+
+<!--#########################################################################################
+                                                                          
+hhhhhhh                     tttt                                  lllllll 
+h:::::h                  ttt:::t                                  l:::::l 
+h:::::h                  t:::::t                                  l:::::l 
+h:::::h                  t:::::t                                  l:::::l 
+ h::::h hhhhh      ttttttt:::::ttttttt       mmmmmmm    mmmmmmm    l::::l 
+ h::::hh:::::hhh   t:::::::::::::::::t     mm:::::::m  m:::::::mm  l::::l 
+ h::::::::::::::hh t:::::::::::::::::t    m::::::::::mm::::::::::m l::::l 
+ h:::::::hhh::::::htttttt:::::::tttttt    m::::::::::::::::::::::m l::::l 
+ h::::::h   h::::::h     t:::::t          m:::::mmm::::::mmm:::::m l::::l 
+ h:::::h     h:::::h     t:::::t          m::::m   m::::m   m::::m l::::l 
+ h:::::h     h:::::h     t:::::t          m::::m   m::::m   m::::m l::::l 
+ h:::::h     h:::::h     t:::::t    ttttttm::::m   m::::m   m::::m l::::l 
+ h:::::h     h:::::h     t::::::tttt:::::tm::::m   m::::m   m::::ml::::::l
+ h:::::h     h:::::h     tt::::::::::::::tm::::m   m::::m   m::::ml::::::l
+ h:::::h     h:::::h       tt:::::::::::ttm::::m   m::::m   m::::ml::::::l
+ hhhhhhh     hhhhhhh         ttttttttttt  mmmmmm   mmmmmm   mmmmmmllllllll
+                                    
+##########################################################################################-->
+<body>
+
+<div class="main">
+  <div class="main-container">
+
+    
+    <div class="header">
+      <center><label id="fileName">Untitled File</label></center>
+    </div>
+   
+
+    <div class='content' contenteditable='true' id='txtContent'></div>
+    
+
+ 
+
+    <div>
+      <input type='text' id="viCommand"/>
+      <div type='text' id="statusBar"/>
+        <output id="mode">NORMAL   </output>
+        <output id="pos">R:0 C:0 </output>
+        <output id="percentage"> %       </output>
+      </div>
+    </div>
+
+
+  </div>
+</div>
+</body>
+
+
+<!--#########################################################################################
+
+
+      ::::::::   ::::::::  :::::::::  ::::::::::: ::::::::: ::::::::::: :::::::: 
+    :+:    :+: :+:    :+: :+:    :+:     :+:     :+:    :+:    :+:    :+:    :+: 
+   +:+        +:+        +:+    +:+     +:+     +:+    +:+    +:+    +:+         
+  +#++:++#++ +#+        +#++:++#:      +#+     +#++:++#+     +#+    +#++:++#++   
+        +#+ +#+        +#+    +#+     +#+     +#+           +#+           +#+    
+#+#    #+# #+#    #+# #+#    #+#     #+#     #+#           #+#    #+#    #+#     
+########   ########  ###    ### ########### ###           ###     ########                           
+
+##########################################################################################-->
+
+<script>
+
+/* ##########################################################################################
+
+██╗   ██╗██╗███╗   ███╗    ███████╗███╗   ██╗ ██████╗ ██╗███╗   ██╗███████╗
+██║   ██║██║████╗ ████║    ██╔════╝████╗  ██║██╔════╝ ██║████╗  ██║██╔════╝
+██║   ██║██║██╔████╔██║    █████╗  ██╔██╗ ██║██║  ███╗██║██╔██╗ ██║█████╗  
+╚██╗ ██╔╝██║██║╚██╔╝██║    ██╔══╝  ██║╚██╗██║██║   ██║██║██║╚██╗██║██╔══╝  
+ ╚████╔╝ ██║██║ ╚═╝ ██║    ███████╗██║ ╚████║╚██████╔╝██║██║ ╚████║███████╗
+  ╚═══╝  ╚═╝╚═╝     ╚═╝    ╚══════╝╚═╝  ╚═══╝ ╚═════╝ ╚═╝╚═╝  ╚═══╝╚══════╝
+   
+######################################################################################### */
+
+var   mode="normal";
+const stackKeys=[];
+const pivote=[0,0];
+const undo=[];
+const redo=[];
+var clipboard="";
+//var flagC=false;
+//var flagI=false;
+const stackLines=[];
+//var flagVisual="normal";
+
+stackKeys.push("");
+stackKeys.push("");
+//var backupData;
+//var backupNodeIndex;
+//var backupPos;
+
+const mainDiv=document.getElementById("txtContent");
+const comDiv=document.getElementById("viCommand");
+const statusBar=document.getElementById("statusBar");
+const modo=document.getElementById("mode");
+const position=document.getElementById("pos");
+const percentage=document.getElementById("percentage");
+
+
+comDiv.style.display="none";
+
+
+/*
+setInterval(function(){
+    backupData=mainDiv.innerHTML;
+    backupNodeIndex=getNodeIndex();
+    backupPos=getCurrentCaretPos();
+    console.log("backuping...");
+},5000);
+*/
+
+
+function getNodeIndex(){
+    
+    let thisNode=getCurrentNode();
+    
+    for(let i=0; i<mainDiv.childNodes.length;i++){
+      if(thisNode.isSameNode(mainDiv.childNodes[i])){
+        return i;
+      }
+    }
+}
+
+
+function getCurrentNode(){
+    const sel =  document.getSelection();
+    const child= sel.anchorNode;
+    return child.parentNode;
+}
+
+function getCurrentCaretPos(){
+    let sel =  document.getSelection();
+    let pos=sel.getRangeAt(0).startOffset;
+    return pos;
+}
+
+function moveCaretH(direction){
+
+    const pos=getCurrentCaretPos();
+    
+    const node=getCurrentNode(); 
+    if(node.childNodes[0].length==pos&&direction=="+1"){
+      return;
+    }
+    if(pos==0&&direction=="-1"){
+      return;
+    }
+    let range=new Range();  
+    range.setStart(node.childNodes[0],pos+direction); 
+    range.setEnd(node.childNodes[0],pos+direction);
+    document.getSelection().removeAllRanges(); 
+    document.getSelection().addRange(range);  
+}
+
+function moveCaretV(direction){
+    let pos=getCurrentCaretPos();
+    let node=getCurrentNode();
+    node=node.childNodes[0];
+    //console.clear();
+
+
+   if(direction=="+1"&&!node.parentNode.isSameNode(node.parentNode.parentNode.firstChild)){
+     // console.log("debug +1");
+      node=node.parentNode.previousSibling.childNodes[0];
+      
+      //console.log(node);
+     // console.log(node.innerHTML);
+    }
+    if(direction=="-1"&&!node.parentNode.isSameNode(node.parentNode.parentNode.lastChild)){
+      //console.log("debug -1");
+      node=node.parentNode.nextSibling.childNodes[0];
+      //console.log(node);
+      //console.log(node.innerHTML);
+    }
+
+    const len=node.textContent.length;
+    
+    if(len<pos){
+      pos=len;
+    }
+   
+    let range=new Range();  
+    range.setStart(node,pos); 
+    range.setEnd(node,pos);
+    document.getSelection().removeAllRanges(); 
+    document.getSelection().addRange(range);  
+}
+
+function removeChars(numOfChars){
+    let nodoHTML=getCurrentNode();
+    let len= nodoHTML.childNodes[0].textContent.length;
+    let pos= getCurrentCaretPos();
+    let firstPart;
+    let lastPart;
+
+    if(numOfChars < 0){
+
+      firstPart=nodoHTML.childNodes[0].textContent.slice(0,pos+numOfChars);
+      lastPart=nodoHTML.childNodes[0].textContent.slice(pos,len);
+      
+    }
+    if(numOfChars > 0){
+      
+      firstPart=nodoHTML.childNodes[0].textContent.slice(0,pos);
+      lastPart=nodoHTML.childNodes[0].textContent.slice(pos+numOfChars,len);
+      numOfChars=0;
+    }
+    
+    
+    let newContent=document.createTextNode(firstPart+lastPart);
+    
+    //////////////////////////////////////////////////////////////
+    // debido a comportamiento de cambiar de nodo automaticamente
+    // al vaciar el texto del nodo se inserta este espacio vacio
+    
+    if(len==1){
+        newContent=document.createTextNode('\u00A0');
+    }
+
+    //////////////////////////////////////////////////////////////
+   
+    if(pos==0){
+      pos=0;
+      numOfChars=0;
+      newContent=document.createTextNode(lastPart.slice(1,lastPart.length)+'\u00A0');
+    }
+
+    nodoHTML.replaceChild(newContent,nodoHTML.childNodes[0]);
+    
+    nodoHTML=nodoHTML.childNodes[0];
+  
+    let range=new Range();  
+    range.setStart(nodoHTML,pos+numOfChars); 
+    range.setEnd(nodoHTML,pos+numOfChars);
+    document.getSelection().removeAllRanges(); 
+    document.getSelection().addRange(range);
+}
+
+
+function selectText(direction){
+    console.log("debug 0001");
+    let sel=window.getSelection();
+    let offsetA=sel.getRangeAt(0).startOffset;
+    let offsetB=sel.getRangeAt(0).endOffset;
+    const node=getCurrentNode();
+    
+    moveCaretH(direction);
+    let startPos;
+    let endPos;
+    
+    
+
+    if(offsetA>=pivote[0]){
+      console.log("+1");
+      startPos=pivote[0];
+      endPos=offsetB+direction;
+    }
+
+
+    if(offsetA<pivote[0]){
+      console.log("-1");
+      startPos=offsetA+direction;
+      endPos=pivote[0];
+    }
+
+    if(startPos>endPos){
+      startPos=offsetA+direction;
+      endPos=pivote[0];
+    }
+
+
+ 
+    let range=new Range();  
+    range.setStart(node.childNodes[0],startPos); 
+    range.setEnd(node.childNodes[0],endPos);
+    document.getSelection().removeAllRanges(); 
+    document.getSelection().addRange(range);     
+}
+
+
+
+
+
+
+resetIDE();
+
+
+function resetIDE(){
+  let   newNode = document.createElement("div");
+  let   textNode= document.createTextNode("\u00A0");
+  newNode.appendChild(textNode);
+  mainDiv.appendChild(newNode);
+  let range=new Range();  //se tiene que usar Range para mover el caret
+  range.setStart(newNode.childNodes[0],0); // mueve el caret a la posicion indicada
+  range.setEnd(newNode.childNodes[0],0);
+  document.getSelection().removeAllRanges(); //limpia recursos
+  document.getSelection().addRange(range);
+}
+
+
+
+function setCaretPosHere(node,pos){
+
+     //let pos=getCurrentCaretPos();
+     //let node=getCurrentNode();
+     let range=new Range();  //se tiene que usar Range para mover el caret
+     range.setStart(node.childNodes[0],pos); // mueve el caret a la posicion indicada
+     range.setEnd(node.childNodes[0],pos);
+     document.getSelection().removeAllRanges(); //limpia recursos
+     document.getSelection().addRange(range);
+
+}
+
+
+function moveByWord(numOfWords){
+     
+     let node=getCurrentNode().childNodes[0];
+     const pos=getCurrentCaretPos();
+     let len=node.textContent.length;
+
+     let posOfWord;
+     if(numOfWords<0){
+       posOfWord=node.textContent.slice(0,pos).lastIndexOf(" ",len);
+     }
+     if(numOfWords>0){
+       let lastPart=node.textContent.slice(pos,len).concat(" ");
+       console.log(lastPart);
+       posOfWord=pos+lastPart.indexOf(" ",1);
+     } 
+
+     console.log(posOfWord);
+     if(posOfWord==-1&&numOfWords<0){
+       posOfWord=0;
+     }
+     
+     if(posOfWord==(len-1)){
+       posOfWord=len;
+     }
+    
+     if(posOfWord==-1){
+       return;
+     }
+    
+     let range=new Range();
+     range.setStart(node,posOfWord);
+     range.setEnd(node,posOfWord);
+     document.getSelection().removeAllRanges(); 
+     document.getSelection().addRange(range);
+}
+
+
+function cleanInnerWord(){
+
+   let node=getCurrentNode();
+   let pos=getCurrentCaretPos();
+   let sel=document.getSelection();
+
+   let textLine=node.childNodes[0].textContent;
+   let len=textLine.length;
+   let offsetA=textLine.lastIndexOf(" ",pos);
+   let offsetB=textLine.indexOf(" ",pos);
+
+   let newTextLine=textLine.slice(0,offsetA)+"\u00A0"+textLine.slice(offsetB,len);
+   node.childNodes[0].textContent=newTextLine;
+
+   let range=new Range();  
+   range.setStart(node.childNodes[0],offsetA+1); 
+   range.setEnd(node.childNodes[0],offsetA+1);
+   document.getSelection().removeAllRanges(); 
+   document.getSelection().addRange(range);
+
+   mode="normal";
+   modo.value="NORMAL";
+   flagI=false;
+
+}
+
+
+
+
+function replaceWithKeys(keys){
+  var node=getCurrentNode();
+  node=node.childNodes[0];
+  var pos =getCurrentCaretPos();
+  console.log(pos);
+  var len= node.textContent.length;
+  console.log(len);
+  var firstPart=node.textContent.slice(0,pos-2);
+  console.log(firstPart);
+ 
+  var lastPart=node.textContent.slice(pos,len);
+  console.log(lastPart);
+        
+  node.textContent="";
+  node.textContent=node.textContent.concat(firstPart,keys,lastPart);
+         
+  pos=firstPart.length+1;
+   
+  let range=new Range();  
+  range.setStart(node,pos); 
+  range.setEnd(node,pos);
+  document.getSelection().removeAllRanges(); 
+  document.getSelection().addRange(range);
+
+  mode="normal";
+  modo.value="NORMAL";
+         
+  stackKeys.shift();
+  
+}
+
+
+
+  
+
+
+
+function undoByChar(){
+  
+  
+    let nodeIndex=getNodeIndex();
+    let pos=getCurrentCaretPos();
+    let stateOfLine=[];
+    stateOfLine[0]=mainDiv.childNodes[nodeIndex].textContent;
+    stateOfLine[1]=pos;
+    undo.push(stateOfLine);
+    if (undo.length > 30) {
+      let char=undo.pop();
+      undo.shift();
+    }
+    //console.log(undo);
+    
+}
+
+
+
+
+
+function seleccionarBloque(nodeA,posA,posB){
+  
+  if((posA-posB)==0){
+    return;
+  }
+
+  //console.log("NODO ANTES: "+nodeA.innerHTML);
+
+  
+
+  for(let i=0; i<nodeA.childNodes.length;i++){
+    //console.log("child "+i+":"+nodeA.childNodes[i].innerHTML);
+  }
+
+  //console.log("posA: "+posA);
+  //console.log("posB:"+posB);
+  
+  let txt=nodeA.textContent;
+  //console.log("txt= "+txt);
+  
+  let txtAfter=document.createTextNode(txt.slice(0,posA));
+  let txtSel=document.createTextNode(txt.slice(posA,posB));
+  let txtBefore=document.createTextNode(txt.slice(posB));
+
+  let span0=document.createElement("span");
+  span0.appendChild(txtAfter);
+
+  let span1=document.createElement("span");
+  span1.appendChild(txtSel);
+
+  let span2=document.createElement("span");
+  span2.appendChild(txtBefore);
+
+  while(nodeA.firstChild){
+    //console.log("Borrando el nodo: "+nodeA.lastChild.innerHTML);
+    nodeA.removeChild(nodeA.lastChild);
+  }
+
+  for(let i=0; i<nodeA.childNodes.length;i++){
+    //console.log("Ahora el nodo "+i+" es :"+nodeA.childNodes[i].innerHTML);
+  }
+
+  nodeA.appendChild(span0);
+  nodeA.appendChild(span1);
+  nodeA.appendChild(span2);
+         
+  span1.classList.add("sel");
+  
+  //console.log("NODO DESPUES: "+nodeA.innerHTML);
+  
+    
+  //console.log("selection= "+nodeA.childNodes[1].innerHTML);
+  /*    
+  let range=new Range();
+  range.setStart(nodeA.childNodes[1],1);
+  range.setEnd(nodeA.childNodes[1],1);
+  let sel=document.getSelection();
+  sel.removeAllRanges();
+  sel.addRange(range);
+  */
+  
+
+}
+
+function deseleccionarBloque(nodeA){
+ 
+ let indexNode=0;
+  for(let i=0;i<mainDiv.childNodes.length;i++){
+    if(mainDiv.childNodes[i].isSameNode(nodeA)){
+      indexNode=i;
+      break;
+    }
+  }
+
+
+
+  txt=mainDiv.childNodes[indexNode].childNodes[0].textContent+
+      mainDiv.childNodes[indexNode].childNodes[1].textContent+
+      mainDiv.childNodes[indexNode].childNodes[2].textContent;
+
+  let txtNode=document.createTextNode(txt);
+
+  while(mainDiv.childNodes[indexNode].firstChild){
+    mainDiv.childNodes[indexNode].removeChild(mainDiv.childNodes[indexNode].lastChild);
+  }
+
+  mainDiv.childNodes[indexNode].appendChild(txtNode);      
+  
+
+}
+
+
+
+
+function deseleccionarTodosLosBloques(){
+  for(let n=0; n<mainDiv.childNodes.length; n++){
+    //console.log(mainDiv.childNodes[n].innerHTML);
+    //console.log(mainDiv.childNodes[n].querySelector("span"));
+    if(mainDiv.childNodes[n].querySelector("span")){
+  
+      //console.log("debug017");
+      //console.log(mainDiv.childNodes[n].innerHTML);
+
+      txt=mainDiv.childNodes[n].childNodes[0].textContent+
+      mainDiv.childNodes[n].childNodes[1].textContent+
+      mainDiv.childNodes[n].childNodes[2].textContent;
+
+      let txtNode=document.createTextNode(txt);
+
+      while(mainDiv.childNodes[n].firstChild){
+        mainDiv.childNodes[n].removeChild(mainDiv.childNodes[n].lastChild);
+      }
+          
+      mainDiv.childNodes[n].appendChild(txtNode);
+
+      //console.log(mainDiv.childNodes[n]);
+
+      /*let range=new Range();
+      range.setStart(pivote[1].firstChild,pivote[0]);
+      range.setEnd(pivote[1].firstChild,pivote[0]);
+      let sel=document.getSelection();
+      sel.removeAllRanges();
+      sel.addRange(range);*/
+ 
+    }
+  }
+}
+
+
+
+
+
+/* ##########################################################################################
+
+ ██ ▄█▀▓█████▓██   ██▓ █    ██  ██▓███  
+ ██▄█▒ ▓█   ▀ ▒██  ██▒ ██  ▓██▒▓██░  ██▒
+▓███▄░ ▒███    ▒██ ██░▓██  ▒██░▓██░ ██▓▒
+▓██ █▄ ▒▓█  ▄  ░ ▐██▓░▓▓█  ░██░▒██▄█▓▒ ▒
+▒██▒ █▄░▒████▒ ░ ██▒▓░▒▒█████▓ ▒██▒ ░  ░
+▒ ▒▒ ▓▒░░ ▒░ ░  ██▒▒▒ ░▒▓▒ ▒ ▒ ▒▓▒░ ░  ░
+░ ░▒ ▒░ ░ ░  ░▓██ ░▒░ ░░▒░ ░ ░ ░▒ ░     
+░ ░░ ░    ░   ▒ ▒ ░░   ░░░ ░ ░ ░░       
+░  ░      ░  ░░ ░        ░              
+
+######################################################################################### */
+
+
+function keysUP(event){
+  if (mode=="normal"){
+    undoByChar();
+  }
+  
+
+/////////////////////////////////////////////////////////////////////////
+// Con esta funcion vamos cachando las pulsaciones del teclado
+// para ir checando si se ha formado un codigo de 2 caracteres que
+// debe disparar una cierta funcion
+     stackKeys.push(event.key);
+     //console.log("len de StackKeys= "+stackKeys.length);
+     if (stackKeys.length > 2) {
+       trig=stackKeys[0]+stackKeys[1]+stackKeys[2];
+      // console.log("trig= "+trig);
+
+       if (trig.includes('""')){
+         event.preventDefault();
+         replaceWithKeys('""');        
+       }
+
+
+       if (trig.includes(">>")&&mode=="normal"){
+         event.preventDefault();
+         replaceWithKeys("<>")
+       }
+
+       if (trig.includes("}}")&&mode=="normal"){
+         event.preventDefault();
+         replaceWithKeys("{}")
+       }
+       if (trig.includes("]]")&&mode=="normal"){
+         event.preventDefault();
+         replaceWithKeys("[]")
+       }
+       if (trig.includes("''")&&mode=="normal"){
+         event.preventDefault();
+         replaceWithKeys("''")
+       }
+       if (trig.includes("``")&&mode=="normal"){
+         event.preventDefault();
+         replaceWithKeys("``")
+       }
+       if (trig.includes("kj")&&mode=="normal"){
+         event.preventDefault();
+         modo.value="COMMAND";
+         mode="command";
+         modo.value="COMMAND";
+         removeChars(-2); 
+         
+         stackKeys.shift();
+         //stackKeys.shift();
+         //stackKeys.pop();
+         //stackKeys.pop(); 
+
+       }
+       if(trig.includes("yy")&&mode=="command"){
+         event.preventDefault();
+         let node=getCurrentNode().childNodes[0];
+         pivote[0]=getCurrentCaretPos();
+         pivote[1]=getNodeIndex();
+         console.log("pivote antes: "+pivote[0]);
+         console.log("debug018");
+         clipboard="yy"+node.textContent;
+         console.log(clipboard);
+         
+         stackKeys.shift(); 
+       }
+
+       if(trig.includes("dd")&&mode=="command"){
+         event.preventDefault();
+         let node=getCurrentNode();
+         let indexNode=getNodeIndex();
+         console.log(mainDiv.childNodes[0].isSameNode(node));
+         if(mainDiv.firstChild.isSameNode(node)){
+           indexNode=1;
+           let txt=document.createTextNode("\u00A0");
+           node.replaceChild(txt,node.firstChild);
+           
+         } 
+         console.log("length of text= "+node.childNodes[0].textContent.length)
+         
+         
+         if(mainDiv.childNodes.length!=1){
+           node.remove();
+         }
+      
+         let range=new Range();  
+         range.setStart(mainDiv.childNodes[indexNode-1].childNodes[0],0); 
+         range.setEnd(mainDiv.childNodes[indexNode-1].childNodes[0],0);
+         document.getSelection().removeAllRanges(); 
+         document.getSelection().addRange(range); 
+
+         stackKeys.shift();
+         //stackKeys.shift();
+         //stackKeys.pop();
+         //stackKeys.pop();
+        
+       }
+       if(trig.includes("ciw")&&mode=="normal"){
+         cleanInnerWord();
+
+         stackKeys.shift();
+         stackKeys.shift();
+         //stackKeys.shift();
+         
+       }
+
+       stackKeys.shift();
+    }
+ 
+     
+////////////////////////////////////////////////////////////////////////////
+
+
+
+
+   if(event.key=="p"&&mode=='command'){
+ 
+
+     if (clipboard==""){
+       return;
+     }
+     
+     if(clipboard.slice(0,2)=="vb"){
+        let txt=clipboard.slice(2,clipboard.length);
+        const lines=txt.split("|");
+        //console.log(lines.length);
+        let   newNode;
+        let   textNode;
+        let thisNode;
+        for(let i=lines.length-1; i>=0; i--){
+   
+          newNode = document.createElement("div");
+          textNode= document.createTextNode(lines[i]);
+          newNode.appendChild(textNode);
+          thisNode=getCurrentNode();
+          thisNode.insertAdjacentElement('afterend',newNode);
+
+        }
+
+
+        let range=new Range();  
+        range.setStart(newNode.childNodes[0],0); 
+        range.setEnd(newNode.childNodes[0],0);
+        document.getSelection().removeAllRanges(); 
+        document.getSelection().addRange(range);
+        return;
+        
+     }     
+
+
+     if(clipboard.slice(0,2)=="vl"){
+        let txt=clipboard.slice(2,clipboard.length);
+        const lines=txt.split("|");
+        //console.log(lines.length);
+        let   newNode;
+        let   textNode;
+        let thisNode;
+        for(let i=lines.length-1; i>=0; i--){
+   
+          newNode = document.createElement("div");
+          textNode= document.createTextNode(lines[i]);
+          newNode.appendChild(textNode);
+          thisNode=getCurrentNode();
+          thisNode.insertAdjacentElement('afterend',newNode);
+
+
+          
+        }
+
+
+        let range=new Range();  
+        range.setStart(newNode.childNodes[0],pivote[0]); 
+        range.setEnd(newNode.childNodes[0],pivote[0]);
+        document.getSelection().removeAllRanges(); 
+        document.getSelection().addRange(range);
+        return;
+        
+     }     
+
+
+     if(clipboard.slice(0,2)=="yy"){
+        let txt=clipboard.slice(2,clipboard.length);
+        let   newNode = document.createElement("div");
+        let   textNode= document.createTextNode(txt);
+        newNode.appendChild(textNode);
+        let thisNode=getCurrentNode();
+        thisNode.insertAdjacentElement('afterend',newNode);
+        let range=new Range();  
+        range.setStart(newNode.childNodes[0],pivote[0]); 
+        range.setEnd(newNode.childNodes[0],pivote[0]);
+        document.getSelection().removeAllRanges(); 
+        document.getSelection().addRange(range);
+     }
+     if(clipboard.slice(0,2)!="yy"){
+        console.log("pivote despues: "+pivote[0]);
+        //console.log("debug 006");
+        //let txt=data;
+        //let   newNode = document.createElement("div");
+        //let   textNode= document.createTextNode(txt);
+        //newNode.appendChild(textNode);
+        let thisNode=getCurrentNode().childNodes[0];
+        //thisNode.insertAdjacentElement('afterend',newNode);
+        let pos=getCurrentCaretPos();
+        let newPos=pos+clipboard.length;
+        let len=thisNode.length;
+        let textBeforePos=thisNode.textContent.slice(0,pos);
+        let textAfterPos=thisNode.textContent.slice(pos,len);
+        thisNode.textContent=textBeforePos+clipboard+textAfterPos;
+        let range=new Range();  
+        range.setStart(thisNode,newPos); 
+        range.setEnd(thisNode,newPos);
+        document.getSelection().removeAllRanges(); 
+        document.getSelection().addRange(range);
+     }
+
+     
+   }
+
+
+   if(event.key=="u"&&mode=='command'){
+
+      event.preventDefault();
+      event.stopPropagation();
+      //console.log(undo.length);
+      if(undo.length<="1"){
+          return;
+      }
+ 
+      let node=getCurrentNode();
+
+      //console.log("UNDO ANTES= "+undo+"--------------  ");
+      //console.log("REDO ANTES= "+redo+"--------------  ");
+      
+      let undoItem;
+      undoItem=undo.pop();
+      //let len=undoItem[0].length;
+      //console.log("undoItem= "+undoItem[0].includes("kj"));
+      redo.push(undoItem);
+      
+      if(undoItem[0].includes("kj")){
+        //alert("se entra aqui");
+        undoItem=undo.pop();
+        redo.push(undoItem);
+        undoItem=undo.pop();
+        redo.push(undoItem);
+        undoItem=undo.pop();
+        redo.push(undoItem);
+      
+          
+      }
+      //console.log("undoItem= "+undoItem[0]);
+
+
+      let newNode=document.createTextNode(undoItem[0]);
+      let pos=undoItem[1];
+
+      node.replaceChild(newNode,node.childNodes[0]);
+
+      let range=new Range();
+      range.setStart(node.childNodes[0],pos);
+      range.setEnd(node.childNodes[0],pos);
+      document.getSelection().removeAllRanges();
+      document.getSelection().addRange(range);
+      
+      //console.log("UNDO DESPUES= "+undo+"--------------  ");
+      //console.log("REDO DESPUES= "+redo+"--------------  ");
+      
+     
+   }
+
+
+
+
+   if(event.ctrlKey&&event.key=="r"&&mode=='command'){
+
+     
+      event.preventDefault();
+      event.stopPropagation();
+
+      //console.log(redo.length);
+      if(redo.length<="1"){
+          return;
+      }
+      //console.log("  key combination was detected   ");
+ 
+      
+
+      let node=getCurrentNode();
+
+      //console.log("UNDO ANTES= "+undo+"--------------  ");
+     // console.log("REDO ANTES= "+redo+"--------------  ");
+      
+      let redoItem;
+     
+      redoItem=redo.pop();
+      undo.push(redoItem);
+      if(redoItem[0].includes("kj")){
+        redoItem=redo.pop();
+        undo.push(redoItem);
+        redoItem=redo.pop();
+        undo.push(redoItem);
+      }
+      
+
+      let newNode=document.createTextNode(redoItem[0]);
+      let pos=redoItem[1];
+
+      node.replaceChild(newNode,node.childNodes[0]);
+
+      let range=new Range();
+      range.setStart(node.childNodes[0],pos);
+      range.setEnd(node.childNodes[0],pos);
+      document.getSelection().removeAllRanges();
+      document.getSelection().addRange(range);
+      
+      //console.log("UNDO DESPUES= "+undo+"--------------  ");
+      //console.log("REDO DESPUES= "+redo+"--------------  ");
+      
+     
+   }
+
+   if(event.ctrlKey&&event.key=="h"&&mode=='normal'){
+     event.preventDefault();
+     removeChars(-1);
+   }
+   if(event.ctrlKey&&event.key=="j"){
+     event.preventDefault();
+     let   newNode = document.createElement("div");
+     let   textNode= document.createTextNode("\u00A0");
+     newNode.appendChild(textNode);
+     let thisNode=getCurrentNode();
+     thisNode.insertAdjacentElement('afterend',newNode);
+     let range=new Range();  
+     range.setStart(newNode.childNodes[0],0); 
+     range.setEnd(newNode.childNodes[0],0);
+     document.getSelection().removeAllRanges(); 
+     document.getSelection().addRange(range);
+   }
+
+   if(event.key==="x"&&mode=='command'){
+     event.preventDefault();
+     removeChars(-1);
+   }
+
+   if(event.ctrlKey&&event.key=="v"&&mode=="command"){
+
+     console.log("debug015");
+
+    
+     console.log("Se selecciona el caracter actual");
+     modo.value="VisualBlock";
+     mode="visualBlock";
+     console.log("mode= "+mode);
+
+     let node=getCurrentNode();
+     let pos=getCurrentCaretPos();
+     pivote[0]=pos;
+     pivote[1]=getNodeIndex();
+
+     seleccionarBloque(node,pos,pos+1);
+     setCaretPosHere(node,1);
+     return;     
+     
+     
+   }
+
+
+
+   if(event.key==="v"&&(mode=='visualNormal'||mode=='visualLine'||mode=='visualBlock')){
+     event.preventDefault();
+     event.stopPropagation();
+     console.log("debug 002");
+     //pivote[0]=null;
+
+     
+     
+     console.log("saliendo del modo visual");
+     
+     if(mode=="visualNormal"){
+       setCaretPosHere(mainDiv.childNodes[pivote[1]],pivote[0]);
+     }
+
+
+     if(mode=="visualLine"){
+       let node=getCurrentNode();
+       let pos=getCurrentCaretPos();
+       for(let n=0; n<mainDiv.childNodes.length; n++){
+         if(mainDiv.childNodes[n].getAttribute("class")=="sel"){
+           mainDiv.childNodes[n].classList.remove("sel");
+         }
+       }
+       setCaretPosHere(mainDiv.childNodes[pivote[1]],pivote[0]);
+     }
+     
+     if(mode=="visualBlock"){
+       deseleccionarTodosLosBloques();
+       setCaretPosHere(mainDiv.childNodes[pivote[1]],pivote[0]);
+     }
+     mode="command";
+     modo.value="COMMAND";
+
+
+
+     return;
+   }    
+
+
+   if(event.key==="v"&&mode=='command'){
+
+     
+     event.preventDefault();
+     pivote[0]=getCurrentCaretPos();
+     pivote[1]=getNodeIndex();
+     mode="visualNormal";
+     console.log("entrando en modo visualNormal");
+     return;
+   } 
+
+
+ 
+
+
+   if(event.key==="O"&&mode=='command'){
+     event.preventDefault();
+     let   newNode = document.createElement("div");
+     let   textNode= document.createTextNode("\u00A0");
+     newNode.appendChild(textNode);
+     let thisNode=getCurrentNode();
+     mainDiv.insertBefore(newNode,thisNode);
+     let range=new Range();  //se tiene que usar Range para mover el caret
+     range.setStart(newNode.childNodes[0],0); // mueve el caret a la posicion indicada
+     range.setEnd(newNode.childNodes[0],0);
+     document.getSelection().removeAllRanges(); //limpia recursos
+     document.getSelection().addRange(range);
+     mode="normal";
+     modo.value="NORMAL";
+     
+   } 
+   if(event.key==="o"&&mode=='command'){
+     event.preventDefault();
+     let   newNode = document.createElement("div");
+     let   textNode= document.createTextNode("\u00A0");
+     newNode.appendChild(textNode);
+     let thisNode=getCurrentNode();
+     thisNode.insertAdjacentElement('afterend',newNode);
+     let range=new Range();  
+     range.setStart(newNode.childNodes[0],0); 
+     range.setEnd(newNode.childNodes[0],0);
+     document.getSelection().removeAllRanges(); 
+     document.getSelection().addRange(range);
+     mode="normal";
+     modo.value="NORMAL";
+     console.log("scrolling");
+     mainDiv.scrollTo(0, 2000);
+
+   }
+   if(event.key==="$"&&mode=='command'){
+     event.preventDefault();
+     let node=getCurrentNode().childNodes[0];
+     let endOfLine=node.textContent.length;
+     
+     let range=new Range();  
+     range.setStart(node,endOfLine); 
+     range.setEnd(node,endOfLine);
+     document.getSelection().removeAllRanges(); 
+     document.getSelection().addRange(range);
+
+   }
+   if(event.key==="0"&&mode=='command'){
+     event.preventDefault();
+     let node=getCurrentNode().childNodes[0];
+     let startOfLine=0;
+     
+     let range=new Range();  
+     range.setStart(node,startOfLine); 
+     range.setEnd(node,startOfLine);
+     document.getSelection().removeAllRanges(); 
+     document.getSelection().addRange(range);
+
+   }
+ 
+   if(event.key==="y"){
+     event.preventDefault();
+     console.log("mode= "+mode);
+     if(mode=="visualLine"){
+       console.log("Se copian las lineas seleccionadas");
+       clipboard="vl";
+       
+       let indexCurrentNode=getNodeIndex();     //suponiendo sea 1
+       let indexPivote=pivote[1];  //suponiendo sea 2     
+       let numOfLines=indexCurrentNode-indexPivote;
+
+       console.log(clipboard);
+
+       if(numOfLines>0){
+         for(let i=indexPivote ; i<=indexCurrentNode ; i++ ){
+           clipboard+=mainDiv.childNodes[i].textContent+"|";
+           mainDiv.childNodes[i].classList.remove("sel");
+         }
+       }
+
+       if(numOfLines<0){
+         for(let i=indexCurrentNode ; i<=indexPivote ; i++ ){
+           clipboard+=mainDiv.childNodes[i].textContent+"|";
+           mainDiv.childNodes[i].classList.remove("sel");
+         }
+       }
+
+
+       mode="command";
+       modo.value="COMMAND";
+     }
+     if(mode=="visualBlock"){
+       console.log("se copian los bloques seleccionados");
+       clipboard="vb";       
+
+       for(let n=0; n<mainDiv.childNodes.length; n++){
+         if(mainDiv.childNodes[n].querySelector("span")){       
+           clipboard+=mainDiv.childNodes[n].childNodes[1].textContent+"|";
+         }
+       }
+
+       console.log(clipboard);
+       
+       deseleccionarTodosLosBloques();
+       setCaretPosHere(mainDiv.childNodes[pivote[1]],pivote[0]);
+       stackKeys.pop();
+     }
+     if(mode=="visualNormal"){
+
+       let node=getCurrentNode();
+       let pos=getCurrentCaretPos();
+       let sel=document.getSelection();
+       let offsetA=sel.getRangeAt(0).startOffset;
+       let offsetB=sel.getRangeAt(0).endOffset;
+
+       clipboard=node.childNodes[0].textContent.slice(offsetA,offsetB);
+
+       let range=new Range();  
+       range.setStart(node.childNodes[0],pos); 
+       range.setEnd(node.childNodes[0],pos);
+       document.getSelection().removeAllRanges(); 
+       document.getSelection().addRange(range);
+
+       //console.log(clipboard);
+     } 
+     mode="command";
+     modo.value="COMMAND";
+   }
+
+ 
+    
+   if(event.key==="i" && mode=="command"){
+     event.preventDefault();
+     mode="normal";
+     modo.value="NORMAL";
+     
+   }
+
+   
+
+  if(event.key=="V"&&mode=="command"){
+    event.preventDefault();
+    console.log("Entrando en modo VisualLine");
+    mode="visualLine";
+    modo.value="VISUALLINE";
+    
+    let indexNode=getNodeIndex();
+    pivote[0]=getCurrentCaretPos();
+   
+    pivote[1]=indexNode; 
+     
+
+    console.log("Se selecciona la linea= "+indexNode);
+    
+    let pos=getCurrentCaretPos();
+    let node=getCurrentNode();
+
+    //let txt=node.childNodes[0].textContent;
+    //let span=document.createElement("span");
+    //let txtSpan=document.createTextNode(txt);
+    //span.appendChild(txtSpan);
+    //node.replaceChild(span,node.childNodes[0]); 
+    //span.classList.add("sel");
+    
+
+    node.classList.add("sel");
+    
+    //let range=new Range();
+    //range.setStart(node,0);
+    //range.setEnd(node,0);
+    
+    //let sel=document.getSelection();
+    //sel.removeAllRanges();
+    //sel.addRange(range);     
+
+  }
+
+  
+
+
+  if(event.key==":"&&mode=="command"){
+    event.preventDefault();
+    pivote[0]=getCurrentCaretPos();
+    pivote[1]=getNodeIndex();
+    statusBar.style.display="none";
+    comDiv.style.display="block";
+    mode="vi";
+    viCommand.select();
+    viCommand.value=":";
+    
+
+
+  }
+
+  if(event.key=="/"&&mode=="command"){
+    event.preventDefault();
+    pivote[0]=getCurrentCaretPos();
+    pivote[1]=getNodeIndex();
+    console.log("pivote en 1: "+pivote[1]);
+
+    mode="vi";
+    viCommand.select();
+    viCommand.value="/";
+    
+
+
+  }
+
+  if(event.key=="n"&&mode=="command"){
+    event.preventDefault();
+    console.log("se busca la siguiente coincidencia");
+    let indexNode=getNodeIndex();
+    buscar(pat,mainDiv.childNodes[indexNode+1]);
+  }
+
+}//FIN DE keysUP
+
+
+/*#########################################################################
+
+ ██▓     ██▓  ██████ ▄▄▄█████▓▓█████  ███▄    █ ▓█████  ██▀███    ██████ 
+▓██▒    ▓██▒▒██    ▒ ▓  ██▒ ▓▒▓█   ▀  ██ ▀█   █ ▓█   ▀ ▓██ ▒ ██▒▒██    ▒ 
+▒██░    ▒██▒░ ▓██▄   ▒ ▓██░ ▒░▒███   ▓██  ▀█ ██▒▒███   ▓██ ░▄█ ▒░ ▓██▄   
+▒██░    ░██░  ▒   ██▒░ ▓██▓ ░ ▒▓█  ▄ ▓██▒  ▐▌██▒▒▓█  ▄ ▒██▀▀█▄    ▒   ██▒
+░██████▒░██░▒██████▒▒  ▒██▒ ░ ░▒████▒▒██░   ▓██░░▒████▒░██▓ ▒██▒▒██████▒▒
+░ ▒░▓  ░░▓  ▒ ▒▓▒ ▒ ░  ▒ ░░   ░░ ▒░ ░░ ▒░   ▒ ▒ ░░ ▒░ ░░ ▒▓ ░▒▓░▒ ▒▓▒ ▒ ░
+░ ░ ▒  ░ ▒ ░░ ░▒  ░ ░    ░     ░ ░  ░░ ░░   ░ ▒░ ░ ░  ░  ░▒ ░ ▒░░ ░▒  ░ ░
+  ░ ░    ▒ ░░  ░  ░    ░         ░      ░   ░ ░    ░     ░░   ░ ░  ░  ░  
+    ░  ░ ░        ░              ░  ░         ░    ░  ░   ░           ░  
+                                                                          
+#########################################################################*/                                                           
+
+
+
+var repeat=1;
+
+mainDiv.addEventListener("keyup", function(event){
+
+  let node=getCurrentNode();
+  node.scrollIntoView(false);
+  console.log(node);
+  
+  let row=getNodeIndex()+1;
+  let col=getCurrentCaretPos();
+  position.value="R:"+row+" C:"+col;
+
+
+  //console.log(parseInt(event.key));
+ 
+  if(Number.isInteger(parseInt(event.key))&&parseInt(event.key)!=NaN&&mode=="command"){
+    event.preventDefault();
+    //console.log("debug022");
+    repeat=parseInt(event.key);
+    return;
+  }
+  
+  for(let r=1; r<=repeat ; r++){
+    //console.log("debug023");
+    keysUP(event);
+  }
+  repeat=1;
+}, false);
+
+
+
+mainDiv.addEventListener('keydown', function(event) {
+
+
+
+  if(Number.isInteger(parseInt(event.key))&&parseInt(event.key)!=NaN&&mode=="command"){
+    event.preventDefault();
+    //console.log("debug024");
+    repeat=parseInt(event.key);
+    return;
+  }
+  
+  for(let r=1; r<=repeat ; r++){
+    //console.log()
+    //console.log("debug025");
+    keysDOWN(event);
+    
+  }
+  repeat=1;
+}, false); 
+
+
+
+
+/* ################################################################
+                                      .sSSSSs.                                                 
+ ██ ▄█▀▓█████▓██   ██▓▓█████▄  ▒█████   █     █░███▄    █ 
+ ██▄█▒ ▓█   ▀ ▒██  ██▒▒██▀ ██▌▒██▒  ██▒▓█░ █ ░█░██ ▀█   █ 
+▓███▄░ ▒███    ▒██ ██░░██   █▌▒██░  ██▒▒█░ █ ░█▓██  ▀█ ██▒
+▓██ █▄ ▒▓█  ▄  ░ ▐██▓░░▓█▄   ▌▒██   ██░░█░ █ ░█▓██▒  ▐▌██▒
+▒██▒ █▄░▒████▒ ░ ██▒▓░░▒████▓ ░ ████▓▒░░░██▒██▓▒██░   ▓██░
+▒ ▒▒ ▓▒░░ ▒░ ░  ██▒▒▒  ▒▒▓  ▒ ░ ▒░▒░▒░ ░ ▓░▒ ▒ ░ ▒░   ▒ ▒ 
+░ ░▒ ▒░ ░ ░  ░▓██ ░▒░  ░ ▒  ▒   ░ ▒ ▒░   ▒ ░ ░ ░ ░░   ░ ▒░
+░ ░░ ░    ░   ▒ ▒ ░░   ░ ░  ░ ░ ░ ░ ▒    ░   ░    ░   ░ ░ 
+░  ░      ░  ░░ ░        ░        ░ ░      ░            ░ 
+              ░ ░      ░                                  
+################################################################### */
+
+
+function keysDOWN(event){
+
+  if(event.ctrlKey){
+      event.preventDefault();
+      event.stopPropagation();
+     
+     return;    
+
+  } 
+
+  
+
+
+  if(event.key==="Tab"){
+     event.preventDefault();
+     var node=getCurrentNode().childNodes[0];
+     node.textContent=node.textContent.concat("\u00A0\u00A0\u00A0");
+     var len= node.textContent.length;
+     let range=new Range();  
+     range.setStart(node,len); 
+     range.setEnd(node,len);
+     document.getSelection().removeAllRanges(); 
+     document.getSelection().addRange(range); 
+  }
+   
+
+
+     
+  if (mode!="normal"){
+    event.preventDefault();
+    
+  }
+
+  
+  if(event.key==="h"){
+    if(mode=="command"){
+      event.preventDefault();
+      moveCaretH(-1);
+    }
+    if(mode=="visualNormal"){
+      event.preventDefault();
+      selectText(-1);
+    }
+    if(mode=="visualBlock"){
+      event.preventDefault();
+      console.log("Se selecciona hacia la derecha");
+      let node=getCurrentNode();
+
+      console.log("NODO: "+node.innerHTML+" NOMBRE NODO: "+node.nodeName);
+
+      if(node.nodeName=="SPAN"){
+         node=node.parentNode;
+      }
+      let indexNode;
+      for(let i=0; i<mainDiv.childNodes.length;i++){
+        if(mainDiv.childNodes[i].isSameNode(node)){
+          indexNode=i;
+          break;
+        }
+      }      
+
+
+
+      let offsetA=node.childNodes[0].textContent.length;
+      let selLen=node.childNodes[1].childNodes[0].textContent.length;
+      let offsetB=offsetA+selLen;
+
+      if(indexNode<=pivote[1]){
+        for(let s=indexNode; s<=pivote[1];s++){      
+          seleccionarBloque(mainDiv.childNodes[s],offsetA,offsetB-1);
+        }
+      }
+      if(indexNode>pivote[1]){
+        for(let s=pivote[1]; s<=indexNode;s++){      
+          seleccionarBloque(mainDiv.childNodes[s],offsetA,offsetB-1);
+        }
+      }
+      setCaretPosHere(node.childNodes[1],selLen-1);
+
+    }
+  }
+
+
+  if(event.key==="l"){
+    console.log("mode= "+mode);
+    if(mode==="command"){
+      event.preventDefault();
+      moveCaretH(+1);
+    }
+    if(mode=="visualNormal"){
+      event.preventDefault();
+      selectText(+1);
+    }
+    if(mode=="visualBlock"){
+      //console.log("mode: "+mode);
+      event.preventDefault();
+      //console.log("Se selecciona hacia la derecha");
+      let node=getCurrentNode();
+      
+      //console.log("NODO: "+node.innerHTML+" NOMBRE NODO: "+node.nodeName);
+      
+      if(node.nodeName=="SPAN"){
+         node=node.parentNode;
+      }
+      let indexNode;
+      for(let i=0; i<mainDiv.childNodes.length;i++){
+        if(mainDiv.childNodes[i].isSameNode(node)){
+          indexNode=i;
+          break;
+        }
+      }
+      
+      
+      let offsetA=node.childNodes[0].textContent.length;
+      let selLen=node.childNodes[1].childNodes[0].textContent.length;
+      let offsetB=offsetA+selLen;
+      
+
+      if(indexNode<=pivote[1]){
+        for(let s=indexNode; s<=pivote[1];s++){      
+          seleccionarBloque(mainDiv.childNodes[s],offsetA,offsetB+1);
+        }
+      }
+      if(indexNode>pivote[1]){
+        for(let s=pivote[1]; s<=indexNode;s++){      
+          seleccionarBloque(mainDiv.childNodes[s],offsetA,offsetB+1);
+        }
+      }
+     
+      setCaretPosHere(node.childNodes[1],selLen);
+
+    }
+  } 
+
+
+
+  if(event.key==="j"){
+    if(mode=="command"){
+      event.preventDefault();
+      moveCaretV(-1);
+    }
+    if(mode=="visualLine"){
+      event.preventDefault();
+      //console.log(pivote);
+      let indexNode=getNodeIndex();  //supongamos 2
+      let piv=pivote[1];    //supongamos 4
+console.log("CUIDADO: Al declarar pivote como variable local se atora porque pivote fue declarada como array global.");
+      if (indexNode<piv){
+        //indexNode=getNodeIndex();
+        mainDiv.childNodes[indexNode].classList.remove("sel");
+        moveCaretV(-1);
+      }
+      if(indexNode>=piv){
+        moveCaretV(-1);
+        indexNode=getNodeIndex();
+        mainDiv.childNodes[indexNode].classList.add("sel");
+      }
+
+      console.log("Se selecciona la linea "+indexNode);
+    }
+
+    if(mode=="visualBlock"){
+      event.preventDefault();
+
+      console.log("mode: "+mode+" debug 022");
+
+      let indexNode;
+
+      let node=getCurrentNode();
+
+      if(node.nodeName=="SPAN"){
+         node=node.parentNode;
+      }
+
+
+      console.log("DEBUG NODO: "+node.innerHTML);
+      for(let i=0 ; i<mainDiv.childNodes.length; i++){
+        if(mainDiv.childNodes[i].isSameNode(node)){
+          indexNode=i;
+          console.log("El indexNode es: "+indexNode);
+          break;
+        }
+      }
+
+      let piv=pivote[1];
+      let len=mainDiv.childNodes[pivote[1]].childNodes[1].textContent.length;
+      let offsetA=mainDiv.childNodes[pivote[1]].childNodes[0].textContent.length;
+      let offsetB=offsetA+len;
+
+      console.log("indexNode: "+indexNode+" piv: "+piv);
+      //console.log(mainDiv.childNodes[indexNode].innerHTML);
+
+      if(indexNode<piv){
+        deseleccionarBloque(mainDiv.childNodes[indexNode]);
+      }
+      if(indexNode>=piv){
+        seleccionarBloque(mainDiv.childNodes[indexNode+1],offsetA,offsetB);
+      }
+      setCaretPosHere(mainDiv.childNodes[indexNode+1].childNodes[1],0);     
+    }
+  }
+
+
+
+
+
+
+  if(event.key==="k"){
+    if(mode=="command"){
+      event.preventDefault();
+      moveCaretV(+1);
+    }
+    if(mode=="visualLine"){
+      event.preventDefault();
+      let indexNode=getNodeIndex();
+      let piv=pivote[1];
+      console.log("CUIDADO: Al declarar pivote como variable local se atora porque pivote fue declarada como array global.");
+      if (indexNode<=piv){
+        moveCaretV(+1);
+        indexNode=getNodeIndex();
+        mainDiv.childNodes[indexNode].classList.add("sel");   
+      }
+      if(indexNode>piv){
+        mainDiv.childNodes[indexNode].classList.remove("sel");
+        moveCaretV(+1);
+      }
+      console.log("Se selecciona la linea "+indexNode);
+    }
+
+    if(mode=="visualBlock"){
+      event.preventDefault();
+
+      console.log("mode: "+mode+" debug 021");
+
+      let indexNode;
+
+      
+
+      let node=getCurrentNode();
+
+      if(node.nodeName=="SPAN"){
+         node=node.parentNode;
+      }
+
+  
+      console.log("DEBUG NODO: "+node.innerHTML);
+
+      for(let i=0 ; i<mainDiv.childNodes.length; i++){
+        if(mainDiv.childNodes[i].isSameNode(node)){
+          indexNode=i;
+          console.log("El indexNode es: "+indexNode);
+          break;
+        }
+      } 
+
+      
+      let piv=pivote[1];
+      let len=mainDiv.childNodes[pivote[1]].childNodes[1].textContent.length;
+      let offsetA=mainDiv.childNodes[pivote[1]].childNodes[0].textContent.length;
+      let offsetB=offsetA+len;
+      
+      console.log("indexNode: "+indexNode+" piv: "+piv);
+      //console.log(mainDiv.childNodes[indexNode].innerHTML);
+
+      if(indexNode<=piv){
+        seleccionarBloque(mainDiv.childNodes[indexNode-1],offsetA,offsetB);
+      }
+      if(indexNode>piv){
+        deseleccionarBloque(mainDiv.childNodes[indexNode]);
+      }
+      setCaretPosHere(mainDiv.childNodes[indexNode-1].childNodes[1],0);  
+    }
+
+  }
+  if(event.key==="b"){
+    if(mode=="command"){
+      event.preventDefault();
+      moveByWord(-1);
+    }
+    if(mode=="visualNormal"){
+      event.preventDefault();
+    }
+  }
+  if(event.key==="e"){
+    if(mode=="command"){
+      event.preventDefault();
+      moveByWord(+1);
+    }
+    if(mode=="visualNormal"){
+      event.preventDefault();
+    }
+  }
+
+
+
+
+} // FIN DE keysDOWN
+
+
+
+
+
+
+/* ##########################################################################################
+
+                                                                                   
+                    88                        88                                   
+                    ""                        88                                   
+                                              88                                   
+8b      db      d8  88  8b,dPPYba,    ,adPPYb,88   ,adPPYba,   8b      db      d8  
+`8b    d88b    d8'  88  88P'   `"8a  a8"    `Y88  a8"     "8a  `8b    d88b    d8'  
+ `8b  d8'`8b  d8'   88  88       88  8b       88  8b       d8   `8b  d8'`8b  d8'   
+  `8bd8'  `8bd8'    88  88       88  "8a,   ,d88  "8a,   ,a8"    `8bd8'  `8bd8'    
+    YP      YP      88  88       88   `"8bbdP"Y8   `"YbbdP"'       YP      YP      
+                                                                                   
+                                                                                   
+     
+########################################################################################## */
+
+
+
+window.addEventListener("beforeunload", function (event) {
+  
+  event.preventDefault();
+  event.stopPropagation();
+  //var confirmationMessage = "\o/";
+
+  //e.returnValue = confirmationMessage;     // Gecko, Trident, Chrome 34+
+  console.log("hello from beforeUnload");
+  //return confirmationMessage;              // Gecko, WebKit, Chrome <34
+});
+
+
+
+
+/* ##########################################################################################
+        _ ______                                          __
+ _   __(_) ____/___  ____ ___  ____ ___  ____ _____  ____/ /
+| | / / / /   / __ \/ __ `__ \/ __ `__ \/ __ `/ __ \/ __  / 
+| |/ / / /___/ /_/ / / / / / / / / / / / /_/ / / / / /_/ /  
+|___/_/\____/\____/_/ /_/ /_/_/ /_/ /_/\__,_/_/ /_/\__,_/   
+                                                            
+########################################################################################## */
+
+
+
+
+
+viCommand.addEventListener("keyup", function(event){
+   
+   
+
+
+   if(event.ctrlKey&&event.key=="c"&&mode=='vi'){
+     event.preventDefault();
+     event.stopPropagation();
+     let range=new Range();
+     range.setStart(mainDiv.childNodes[pivote[1]].firstChild,pivote[0]);
+     range.setEnd(mainDiv.childNodes[pivote[1]].firstChild,pivote[0]);
+     let sel=document.getSelection();  
+     sel.removeAllRanges();
+     sel.addRange(range);
+     mode='command';
+     modo.value="COMMAND";
+     comDiv.style.display="none";
+     statusBar.style.display="block";
+     viCommand.value="";
+
+   }
+
+   if(event.key==="Enter"){
+     
+     let com=viCommand.value;  
+   
+     if(com.slice(0,1)=='/'){
+       let com=viCommand.value;
+       pat=com.slice(1);
+       let node=pivote[1];
+       buscar(pat,node);
+     }
+
+     if(com.slice(0,1)==':'){
+       
+       com=com.slice(1);
+     
+       if(com=="ul"){
+         fileUpload();
+
+         /*let range=new Range();
+         range.setStart(mainDiv.childNodes[pivote[1]].firstChild,pivote[0]);
+         range.setEnd(maindDiv.childNodes[pivote[1]].firstChild,pivote[0]);
+         let sel=document.getSelection();  
+         sel.removeAllRanges();
+         sel.addRange(range);*/
+         //mode='command';
+         //viCommand.value="";
+       }
+
+       if(com.slice(0,1)=="w"){
+         let file2save=com.slice(2);
+         fileSave(file2save);
+  
+         /*let range=new Range();
+         range.setStart(mainDiv.childNodes[pivote[1]].firstChild,pivote[0]);
+         range.setEnd(mainDiv.childNodes[pivote[1]].firstChild,pivote[0]);
+         let sel=document.getSelection();  
+         sel.removeAllRanges();
+         sel.addRange(range);*/
+         //mode='command';
+         //viCommand.value="";
+         
+    
+       }
+ 
+       if(com.slice(0,1)=="o"){
+       
+         openFileDialog();
+
+         
+         //NOTA: debido a que la descarga es asincronica la funcion  la funcion setCaretPosHere() no funciona adecuadamente. 
+         
+         
+
+       }
+
+       if(com.slice(0,2)=="dl"){
+         let file2save=com.slice(3);
+         fileDownload(file2save);
+         /*
+         let range=new Range();
+         range.setStart(mainDiv.childNodes[pivote[1]].firstChild,pivote[0]);
+         range.setEnd(mainDiv.childNodes[pivote[1]].firstChild,pivote[0]);
+         let sel=document.getSelection();  
+         sel.removeAllRanges();
+         sel.addRange(range);*/
+         //mode='command';
+         //viCommand.value="";
+       }
+       
+       if(com.slice(0,2)=="r"){
+         runProgram();
+         /*
+         let range=new Range();
+         range.setStart(mainDiv.childNodes[pivote[1]].firstChild,pivote[0]);
+         range.setEnd(mainDiv.childNodes[pivote[1]].firstChild,pivote[0]);
+         let sel=document.getSelection();  
+         sel.removeAllRanges();
+         sel.addRange(range);*/
+         //mode='command';
+         //viCommand.value="";
+       }
+       
+
+     }
+     mode='command';
+     viCommand.value="";
+     comDiv.style.display="none";
+     statusBar.style.display="block";
+     setCaretPosHere(mainDiv.childNodes[pivote[1]],pivote[0]);
+
+
+   }
+
+
+},false);
+
+
+viCommand.addEventListener("keydown", function(event){
+
+
+},false);
+
+
+function buscar(pat,node){
+       
+ 
+       //console.log("se brinca a la primera coincidencia");
+
+       //let node=getCurrentNode();
+
+       //console.log("pivote en 2: "+pivote[1]);
+       
+       let indexNode=0;
+       for(let i=0; i<=mainDiv.childNodes.length; i++){
+         //console.log(mainDiv.childNodes[i].isSameNode(mainDiv.childNodes[pivote[1]]));
+         if(mainDiv.childNodes[i].isSameNode(node)){
+           indexNode=i;
+           break;
+         }
+          
+       }
+       //console.log("indexNode= "+indexNode);
+       let pos;
+       for(let l=indexNode; l<mainDiv.childNodes.length; l++){
+         let txt=mainDiv.childNodes[l].textContent;
+         
+         //console.log("pat= "+pat);
+         //console.log("txt= "+txt);
+
+         pos=txt.indexOf(pat);
+         console.log("pos= "+pos);
+         
+         if(pos!=-1){
+           indexNode=l;
+           break;          
+         }
+       }
+
+       console.log("debug 013");
+
+       let range=new Range();
+       let sel=document.getSelection(); 
+
+       if(pos==-1){
+         console.log("La buqueda no produjo resultados");
+         pos=pivote[0]; 
+
+         
+       }
+
+       console.log("indexNode= "+indexNode);
+       console.log("pos= "+pos);
+       
+       
+       range.setStart(mainDiv.childNodes[indexNode].childNodes[0],pos);
+       range.setEnd(mainDiv.childNodes[indexNode].childNodes[0],pos);
+        
+       sel.removeAllRanges();
+       sel.addRange(range);
+       mode='command';
+       viCommand.value="";
+
+}
+
+
+
+
+var fileName = document.getElementById("fileName");
+//var fileContent = document.getElementById("txtContent");
+//var fileTitle = document.getElementById("id_title");
+
+var input = document.createElement('input');
+
+
+//Abrir archivo
+function fileUpload()
+{
+
+  input.type = 'file';
+
+  input.onchange =  e => { 
+
+       var file = e.target.files[0]; 
+       var reader = new FileReader();
+       reader.readAsText(file,'UTF-8');
+
+       reader.onload = readerEvent => {
+       var content = readerEvent.target.result; // this is the content!
+
+       const lines=content.split("\n");          
+       console.log(lines);
+         
+       let node=getCurrentNode();
+       mainDiv.firstChild.remove();          
+
+
+       for(let l=0;l<lines.length;l++){
+         console.log(lines[l]);
+         let div=document.createElement("div");
+         let txt=document.createTextNode(lines[l]);
+         div.appendChild(txt);
+         mainDiv.appendChild(div);
+       }
+
+       //mainDiv.innerHTML=content;
+      
+       fileName.value=file.name;
+       document.title=file.name;
+
+       }  
+  }
+  input.click();
+}
+
+//fileName.value="";
+//fileContent.value="";
+
+
+
+// descargar archivo
+function fileDownload(file){
+  
+    var e = mainDiv.innerText;
+    e=e.replace(/\u00A0/g,'');
+    var c = document.createElement("a");
+    c.download = file;
+    var t = new Blob([e], {
+                type: "text/plain"
+              }
+            );
+    c.href = window.URL.createObjectURL(t);
+    c.click();
+  
+}
+
+
+function fileSave(file){
+    console.log("debug 012");
+
+    var contenidoArchivo=mainDiv.innerText;
+    contenidoArchivo=contenidoArchivo.replace(/\u00A0/g,'');
+    //contenidoArchivo=contenidoArchivo.replace(/\s/g,'\n');
+    
+   
+    //console.log(contenidoArchivo);
+    var nombreArchivo = file;
+
+    if ( !nombreArchivo ) {
+          alert("error en el nombre del archivo");
+          return;
+    }
+
+
+    let formData =new FormData();
+    formData.append("contenidoArchivo", contenidoArchivo);
+    formData.append("nombreArchivo", nombreArchivo);
+      
+    let httpPOST = new XMLHttpRequest();
+       
+    httpPOST.open("POST", "writeFile4B.php",true);
+    httpPOST.send(formData);
+
+
+    //fileTitle.innerHTML = nombreArchivo;
+    fileName.value=file.name;
+    document.title=file.name;
+    
+    const dialog = document.createElement("div");
+    dialog.id='id_floating_div';
+    dialog.className='floating_div_class';
+    //fileDialog.classList.add("center");
+    dialog.innerHTML = '<div class="center">Se ha guardado el archivo</div>';
+    const parent = document.querySelector("body");
+    parent.appendChild(dialog);
+   
+
+    setTimeout(function(){close_div()},500);
+    
+
+ 
+}
+
+
+function runProgram(){
+
+
+  //saveFile();
+
+  //setTimeout(function(){},500);
+
+
+  var nombreArchivo = fileName.value;
+
+  if (!nombreArchivo) {
+   alert("Hace falta nombre de archivo.");
+   return;
+  }
+
+  var newWindow = window.open(nombreArchivo);
+
+
+}
+
+
+function openFileDialog(){
+  console.log('se ha entrado en openFileDialog()');
+  const fileDialog = document.createElement("div");
+  fileDialog.id='id_floating_div';
+  fileDialog.className='floating_div_class';
+  //fileDialog.classList.add("center");
+  fileDialog.innerHTML = "cargando...";
+  const parent = document.querySelector("body");
+  parent.appendChild(fileDialog);
+  
+
+
+  
+  
+  fileDialog.innerHTML=viewThisDir();
+  
+  
+  
+
+}
+
+
+
+    
+
+function viewThisDir(){
+
+
+    function blabla(){
+        
+        if(event.key=='Escape'){
+          
+          close_div();
+          document.removeEventListener('keyup',blabla);
+          return;
+        }
+    }
+
+
+    document.addEventListener('keyup', blabla);
+
+
+
+    let formData =new FormData();
+    var baseDirectory=".";
+
+    formData.append("php_baseDirectory", baseDirectory);
+
+
+   
+      
+    let httpPOST = new XMLHttpRequest();
+
+    httpPOST.onreadystatechange = function() {
+        
+       if (httpPOST.readyState==4 && httpPOST.status==200) {
+            const js_contenidosRecibidos = httpPOST.responseText;
+
+
+            
+            
+            var data="";
+                   
+          
+            const filesIntoDirPHP=js_contenidosRecibidos.split("|");
+            
+            let temporaryVar=[];
+
+            let filesIntoDirJS=[];
+            for (let i = 0; i < filesIntoDirPHP.length; i++) {
+                 filesIntoDirJS[i] = [];
+                 for (let j = 0; j < 2; j++) {
+                    filesIntoDirJS[i][j] = null;
+                 }
+            }
+            
+
+            for (let j=0; j<filesIntoDirPHP.length;j++){
+                        
+                        temporaryVar=filesIntoDirPHP[j].split(",");
+                        filesIntoDirJS[j][0]=temporaryVar[0];
+                        filesIntoDirJS[j][1]=temporaryVar[1];
+            }            
+            
+            
+
+            for(let m=0; m<filesIntoDirPHP.length-1;m++){      
+
+//segun experimento creo que solo se necesita ejecutar n-1 veces el procedimiento para recorrer el caso mas extremo desde el fina hasta el principio.
+
+              for(let k=0; k<filesIntoDirPHP.length-1;k++){
+
+//Para no desbordar el array con el k+1-esimo termino le restamos 1.
+                 
+                 if (filesIntoDirJS[k][1]<filesIntoDirJS[k+1][1]) {
+                     temporaryVar[0]=filesIntoDirJS[k][0];
+                     temporaryVar[1]=filesIntoDirJS[k][1];
+                     filesIntoDirJS[k][0]=filesIntoDirJS[k+1][0];
+                     filesIntoDirJS[k][1]=filesIntoDirJS[k+1][1];
+                     filesIntoDirJS[k+1][0]=temporaryVar[0];
+                     filesIntoDirJS[k+1][1]=temporaryVar[1];
+                 }
+              }
+            }
+
+
+
+
+
+            //alert(filesIntoDirJS.length);
+
+            //alert(filesIntoDir[3]);
+
+            for (let i=0; i<filesIntoDirJS.length ; i++){
+                data+= '<span class="highlight" onclick="php_getContent(`'+filesIntoDirJS[i][0]+'`)">'+filesIntoDirJS[i][0]+'</span><br>'  ;
+
+            }
+          
+            var openFileDialog=document.getElementById("id_floating_div");
+          
+        
+            //alert(data);
+
+            openFileDialog.innerHTML='<center> Files Sorted By Date <br><br>'+data+'</center>' ;
+          
+       }
+    }  
+
+       
+    httpPOST.open("POST", "notepad4B.getDir.php",true);
+    httpPOST.send(formData);
+
+    
+
+ 
+}
+
+function php_getContent($file){
+
+
+   let formData =new FormData();
+   var thisFile=$file;
+
+   formData.append("php_thisFile", thisFile);
+
+    let httpPOST = new XMLHttpRequest();
+
+    httpPOST.onreadystatechange = function() {
+       if (httpPOST.readyState==4 && httpPOST.status==200) {
+          const data = httpPOST.responseText;
+          
+
+          fileName.value = thisFile;
+          //console.log(data);
+          const lines=data.split("\n");          
+          //console.log(lines);
+         
+          let node=getCurrentNode();
+          mainDiv.firstChild.remove();          
+
+
+          for(let l=0;l<lines.length;l++){
+            //console.log(lines[l]);
+            let div=document.createElement("div");
+            let txt=document.createTextNode(lines[l]);
+            div.appendChild(txt);
+            mainDiv.appendChild(div);
+          }
+
+
+
+          //mainDiv.innerText = data;
+          //fileTitle.innerHTML = thisFile; 
+          
+          //console.log("thisFile: "+thisFile);
+
+          fileName.innerHTML=thisFile;
+          document.title="VIMJS - "+thisFile;
+          
+          setCaretPosHere(mainDiv.firstChild,0);
+
+          //setTimeout(function(){},500);
+          close_div();
+
+           
+       }
+    }  
+
+       
+    httpPOST.open("POST", "notepad4B.getContentFile.php",true);
+    httpPOST.send(formData);
+
+    /*
+    let range=new Range();
+    range.setStart(mainDiv.firstChild.firstChild,0);
+    range.setEnd(mainDiv.firstChild.firstChild,0);
+    let sel=document.getSelection();  
+    sel.removeAllRanges();
+    sel.addRange(range);
+    mode='normal';
+    viCommand.value="";
+    */
+
+}
+
+
+function close_div(){
+
+  var newDiv=document.getElementById('id_floating_div');
+  newDiv.parentNode.removeChild(newDiv);
+
+
+}
+
+</script>
+</html>
