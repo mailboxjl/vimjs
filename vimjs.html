@@ -61,12 +61,12 @@
 
    //background-color: #000;
    border: 1px solid #000;
-   color: #00ff00;
+   color: #fff;
    padding: 10px;
    font-family: courier new;
    position: fixed;
    top:3%;
-   overflow:overlay;
+   overflow:scroll;
  } 
 
 
@@ -74,7 +74,7 @@
    color:#fff;
  }
 
- .txtHeader {
+ /*.txtHeader {
    font-size: 25px;
    height: 100%;
    background-color: transparent;
@@ -84,15 +84,15 @@
    text-align: center;
    margin: auto;
    display: inline;
- }
+ }*/
 
- .txtHeader:focus,.txtHeader:hover{
+ /*.txtHeader:focus,.txtHeader:hover{
    border:none;
    background-color: #fff;
    color:#246ded;
- } 
+ } */
 
- .txtContent{
+ /*.txtContent{
    height: 100%;
    width: 100%;
    color:#141414;
@@ -104,14 +104,14 @@
    border:none;
    outline: none;
    margin:0px;
- }
+ }*/
 
- .txtContent:focus,.txtContent:hover{
+ /*.txtContent:focus,.txtContent:hover{
    border:none !important;
    background-color: #f7f7f7;
- } 
+ } */
 
- .btn{
+ /*.btn{
    padding: 5px;
    margin: 2px;
    background-color: #246ded;
@@ -119,13 +119,13 @@
    font-size: 18px;
    border-radius:5px;
    border:none;
- }
+ }*/
 
- .btn:focus,.btn:hover{
+ /*.btn:focus,.btn:hover{
    background-color: #fff;
    color:#246ded;
    border:1px #246ded solid;
- }
+ }*/
 
 /*
  #txtContent{
@@ -814,6 +814,9 @@ function deseleccionarTodosLosBloques(){
 
 
 function keysUP(event){
+
+
+
   if (mode=="normal"){
     undoByChar();
   }
@@ -881,6 +884,25 @@ function keysUP(event){
          
          stackKeys.shift(); 
        }
+
+       if(/f[a-z]+/.test(trig)&&mode=="command"){
+         event.preventDefault();
+         console.log("MATCHING: "+trig);
+
+         let node=getCurrentNode();
+         let txt=node.firstChild.textContent;
+         let pos=getCurrentCaretPos();
+         console.log("pos: "+pos);
+
+         console.log( "match: "+ txt.indexOf(trig.match(/f([a-z]+)/)[1], pos )     );
+         let matchPos=txt.indexOf(trig.match(/f([a-z]+)/)[1], pos );
+         setCaretPosHere(node,matchPos);
+         stackKeys.pop();
+         stackKeys.pop();
+         
+         return;
+       }
+       
 
        if(trig.includes("dd")&&mode=="command"){
          event.preventDefault();
@@ -1155,7 +1177,8 @@ function keysUP(event){
    }
 
    if(event.key==="x"&&mode=='command'){
-     event.preventDefault();
+     //event.preventDefault();
+     console.log("debug028");
      removeChars(-1);
    }
 
@@ -1367,13 +1390,32 @@ function keysUP(event){
 
  
     
-   if(event.key==="i" && mode=="command"){
+  if(event.key==="i"&&mode=="command"){
      event.preventDefault();
      mode="normal";
      modo.value="NORMAL";
      
-   }
+  }
 
+  if(event.key=="a"&&mode=="command"){
+    moveCaretH(+1);
+    mode="normal";
+    modo.value="NORMAL";
+  }
+
+  if(event.key=="s"&&mode=="command"){
+    removeChars(-1);
+    mode="normal";
+    modo.value="NORMAL";
+  }
+
+
+
+  if(event.key=="c"&&mode=="command"){
+    removeChars(+1);
+    mode="normal";
+    modo.value="NORMAL";
+  }
    
 
   if(event.key=="V"&&mode=="command"){
@@ -1451,6 +1493,9 @@ function keysUP(event){
     buscar(pat,mainDiv.childNodes[indexNode+1]);
   }
 
+
+
+
 }//FIN DE keysUP
 
 
@@ -1475,8 +1520,8 @@ var repeat=1;
 mainDiv.addEventListener("keyup", function(event){
 
   let node=getCurrentNode();
-  node.scrollIntoView(false);
-  console.log(node);
+  node.scrollIntoView(true); //Esto es lo que hace que el scroll se vea aceptable
+  //console.log(node);
   
   let row=getNodeIndex()+1;
   let col=getCurrentCaretPos();
@@ -1484,18 +1529,25 @@ mainDiv.addEventListener("keyup", function(event){
 
 
   //console.log(parseInt(event.key));
- 
+  //console.log("repeat:"+repeat);
   if(Number.isInteger(parseInt(event.key))&&parseInt(event.key)!=NaN&&mode=="command"){
     event.preventDefault();
     //console.log("debug022");
     repeat=parseInt(event.key);
+    console.log(typeof repeat);
     return;
   }
   
+
   for(let r=1; r<=repeat ; r++){
-    //console.log("debug023");
+    
+    console.log("debug023: loop number= "+r);
     keysUP(event);
+    
+
   }
+
+
   repeat=1;
 }, false);
 
@@ -1505,20 +1557,19 @@ mainDiv.addEventListener('keydown', function(event) {
 
 
 
-  if(Number.isInteger(parseInt(event.key))&&parseInt(event.key)!=NaN&&mode=="command"){
+  /*if(Number.isInteger(parseInt(event.key))&&parseInt(event.key)!=NaN&&mode=="command"){
     event.preventDefault();
     //console.log("debug024");
     repeat=parseInt(event.key);
     return;
-  }
+  }*/
   
   for(let r=1; r<=repeat ; r++){
     //console.log()
     //console.log("debug025");
-    keysDOWN(event);
-    
+    keysDOWN(event);  
   }
-  repeat=1;
+  //repeat=1;
 }, false); 
 
 
@@ -1954,13 +2005,32 @@ viCommand.addEventListener("keyup", function(event){
        }
  
        if(com.slice(0,1)=="o"){
-       
+         
          openFileDialog();
 
          
          //NOTA: debido a que la descarga es asincronica la funcion  la funcion setCaretPosHere() no funciona adecuadamente. 
          
          
+
+       }
+
+       if(/^%\s*s/.test(com.slice(0,10))){ //NOTA: uso del objeto RegExp
+       
+         let args=com.slice(1).split("/");
+         console.log(args);
+      
+         
+         for(let i=0; i<mainDiv.childNodes.length;i++){
+           let mod=mainDiv.childNodes[i].childNodes[0].textContent.replace(args[1],args[2]);
+           let txt=document.createTextNode(mod);
+           //console.log(txt);
+           //let div=document.createElement("div");
+           //div.appendChild(txt);
+           mainDiv.childNodes[i].replaceChild(txt,mainDiv.childNodes[i].firstChild);
+         } 
+
+
 
        }
 
@@ -2351,7 +2421,10 @@ function viewThisDir(){
 }
 
 function php_getContent($file){
-
+   
+   while(mainDiv.firstChild){
+     mainDiv.removeChild(mainDiv.lastChild);
+   }
 
    let formData =new FormData();
    var thisFile=$file;
@@ -2371,7 +2444,7 @@ function php_getContent($file){
           //console.log(lines);
          
           let node=getCurrentNode();
-          mainDiv.firstChild.remove();          
+          //mainDiv.firstChild.remove();          
 
 
           for(let l=0;l<lines.length;l++){
