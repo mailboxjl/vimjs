@@ -3231,8 +3231,8 @@ function runProgram(){
 
   //setTimeout(function(){},500);
 
-
-  var nombreArchivo = fileName.value;
+  console.log(fileName.innerHTML);
+  var nombreArchivo = fileName.innerHTML;
 
   if (!nombreArchivo) {
    alert("Hace falta nombre de archivo.");
@@ -3459,7 +3459,7 @@ function welcome(){
   mainDiv.childNodes[4].firstChild.textContent="~\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0 VIMJS - VI hecho en JavaScript.";
   mainDiv.childNodes[5].firstChild.textContent="~\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0          Versión 0.1.";
   mainDiv.childNodes[6].firstChild.textContent="~\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0          by Juan Luis Manríquez Zepeda.";
-  mainDiv.childNodes[7].firstChild.textContent="~\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0          email: buzonjl@gmail.com";
+  mainDiv.childNodes[7].firstChild.textContent="~\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0          e-mail: buzonjl@gmail.com";
   
 
 
@@ -3467,10 +3467,11 @@ function welcome(){
   mainDiv.childNodes[10].firstChild.textContent="~\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0          jk para activar modo COMMAND.";
   mainDiv.childNodes[11].firstChild.textContent="~\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0          i,a,s,c para activar NORMAL.";
   mainDiv.childNodes[12].firstChild.textContent="~\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0          x,d,t,f casi como en el VIM original.";
-  mainDiv.childNodes[13].firstChild.textContent="~\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0          w [archivo] guarda y o para abrir.";
-  mainDiv.childNodes[14].firstChild.textContent="~\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0          dl para descargar, ul para subir.";
-  mainDiv.childNodes[15].firstChild.textContent="~\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0          Probar comandos del Vim original";
-  mainDiv.childNodes[16].firstChild.textContent="~\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0          quizas ya están implementados.";
+  mainDiv.childNodes[13].firstChild.textContent="~\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0          :w [archivo] guarda y :o para abrir.";
+  mainDiv.childNodes[14].firstChild.textContent="~\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0          :dl para descargar, :ul para subir.";
+
+mainDiv.childNodes[15].firstChild.textContent="~\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0          :r para ejecutar el programa";
+           
   
 
   flag="wel";
