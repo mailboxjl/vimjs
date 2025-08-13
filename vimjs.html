@@ -57,7 +57,7 @@
 
 
  .content{
-   
+   white-space: pre;
    background-color: #000;
    height: 87%;
    width: 97.5%;
@@ -275,8 +275,10 @@ let loop=1;
 var flag="none";
 
 
+/*stackKeys.push("");
 stackKeys.push("");
 stackKeys.push("");
+stackKeys.push("");*/
 
 
 const mainDiv=document.getElementById("txtContent");
@@ -601,6 +603,16 @@ function moveByWord(numOfWords){
      let node=getCurrentNode().childNodes[0];
      const pos=getCurrentCaretPos();
      let len=node.textContent.length;
+
+     if(node.textContent.length==0){
+      //console.log("debug 033");
+      let indexNode=getNodeIndex();
+      
+      setCaretPosHere(mainDiv.childNodes[indexNode+1],0);
+      mainDiv.removeChild(mainDiv.childNodes[indexNode]);
+      
+    } 
+
 
      let posOfWord;
      if(numOfWords<0){
@@ -1036,6 +1048,21 @@ function updateStatusBar(){
 
 mainDiv.addEventListener("keyup", function(event){
 
+  if(event.key=='Escape'){
+    close_div();
+    mode="command";
+    let node=getCurrentNode();
+    let pos=getCurrentCaretPos();
+    let sel=document.getSelection();
+    sel.removeAllRanges();
+
+    setCaretPosHere(node,pos);
+    
+
+    //document.removeEventListener('keyup',blabla);
+    return;
+  }
+
 //if (event.key.length === 1 || event.key === event.code) { //sirve para filtrar Ctrl, Alt y Shift
    
 
@@ -1084,7 +1111,7 @@ mainDiv.addEventListener("keyup", function(event){
     
       //console.log("r: "+r);
       keysUP(event);
-      
+       
     }
     
   
@@ -1096,7 +1123,6 @@ mainDiv.addEventListener("keyup", function(event){
 
 
 mainDiv.addEventListener('keydown', function(event) {
-
 
 
   
@@ -1115,6 +1141,7 @@ mainDiv.addEventListener('keydown', function(event) {
     return;    
 
   } 
+
 
 
 
@@ -1171,6 +1198,7 @@ mainDiv.addEventListener('keydown', function(event) {
       //console.log("repeat: "+repeat);
       repeat-=1;
     } 
+
   }
 
 
@@ -1380,6 +1408,9 @@ function findFunctions(event){
 
 function keysUP(event){
 
+
+
+
   //console.log("debug 035");
 
   if (mode=="normal"){
@@ -1394,7 +1425,7 @@ function keysUP(event){
 
   stackKeysFunction(event);
 
-
+   
 
    if(event.key=="p"&&mode=='command'){
  
@@ -2062,9 +2093,9 @@ function keysUP(event){
   }
 
 
-console.log("KEY: "+event.key);
-console.log("MODE: "+mode);
-console.log("FLAG: "+flag);
+//console.log("KEY: "+event.key);
+//console.log("MODE: "+mode);
+//console.log("FLAG: "+flag);
     
   if(event.key==="i"&&mode=="command"){
      event.preventDefault();
@@ -2178,15 +2209,12 @@ console.log("FLAG: "+flag);
       indexNode=-1; 
     }
     buscar(pat,mainDiv.childNodes[indexNode+1]);
+    
   }
 
 
 
-  if(event.key=='Escape'){
-    close_div();
-    //document.removeEventListener('keyup',blabla);
-    return;
-  }
+
 
   if(event.key=="J"&&mode=="command"){
     event.preventDefault();
@@ -2206,11 +2234,11 @@ console.log("FLAG: "+flag);
 
   }
 
-  if(event.key=="g"&&mode=="command"){
+  /*if(event.key=="g"&&mode=="command"){
     event.preventDefault();     
   
     mode="gMode";
-  }
+  }*/
 
   if(event.key=="r"&&mode=="command"){
     event.preventDefault();     
@@ -2336,8 +2364,10 @@ function keysDOWN(event){
 
   if(event.key==="l"){
     console.log("mode= "+mode);
+     console.log("DEBUG 040");
     if(mode==="command"){
       event.preventDefault();
+       console.log("DEBUG 041");
       moveCaretH(+1);
     }
     if(mode=="visualNormal"){
@@ -2388,15 +2418,15 @@ function keysDOWN(event){
 
 
   if(event.key==="j"){
-    if(mode=="gMode"){
+    /*if(mode=="gMode"){
       let indexNode=getNodeIndex();
       let node=getCurrentNode();
       let anchoCliente=mainDiv.childNodes[indexNode].clientWidth;
       let len=node.textContent.length;
-      console.log("anchoCliente: "+anchoCliente);
+      //console.log("anchoCliente: "+anchoCliente);
       //69 caracteres son a 1000 px como X caracterese son a Y px
       let widthInChars=parseInt(anchoCliente*69/780);
-      console.log("widthInChars: "+widthInChars);
+      //console.log("widthInChars: "+widthInChars);
       
       let pos=getCurrentCaretPos();
       let newPos=widthInChars+pos;      
@@ -2405,7 +2435,7 @@ function keysDOWN(event){
 
       mode="command";
 
-    }
+    }*/
 
     if(mode=="command"){
       event.preventDefault();
@@ -2480,15 +2510,15 @@ console.log("CUIDADO: Al declarar pivote como variable local se atora porque piv
 
   if(event.key==="k"){
 
-    if(mode=="gMode"){
+    /*if(mode=="gMode"){
       let indexNode=getNodeIndex();
       let node=getCurrentNode();
       let anchoCliente=mainDiv.childNodes[indexNode].clientWidth;
       let len=node.textContent.length;
-      console.log("anchoCliente: "+anchoCliente);
+      //console.log("anchoCliente: "+anchoCliente);
       //69 caracteres son a 1000 px como X caracterese son a Y px
       let widthInChars=parseInt(anchoCliente*69/780);
-      console.log("widthInChars: "+widthInChars);
+      //console.log("widthInChars: "+widthInChars);
       
       let pos=getCurrentCaretPos();
       let newPos=pos-widthInChars;      
@@ -2497,7 +2527,7 @@ console.log("CUIDADO: Al declarar pivote como variable local se atora porque piv
 
       mode="command";
 
-    }
+    }*/
 
     if(mode=="command"){
       event.preventDefault();
@@ -2616,6 +2646,15 @@ console.log("CUIDADO: Al declarar pivote como variable local se atora porque piv
 */
 
 
+function vaciarStack(){
+
+  for(let s=0; s<stackKeys.length; s++){
+    stackKeys.pop();
+  }
+
+}
+
+
 
 function stackKeysFunction(event){
 
@@ -2624,36 +2663,58 @@ function stackKeysFunction(event){
 
      stackKeys.push(event.key);
      //console.log("len de StackKeys= "+stackKeys.length);
-     if (stackKeys.length > 2) {
-       trig=stackKeys[0]+stackKeys[1]+stackKeys[2];
-       console.log("trig= "+trig);
+
+     //if (stackKeys.length > 0) {
+     
+      let s=0;
+      let trig="";
+
+      //console.log("stackKeys: "+stackKeys[0]);
+      //console.log("stackKeys: "+stackKeys.length);
+
+      for(let l=0; l<stackKeys.length; l++ ){
+        trig+=stackKeys[l];
+      }
+      //console.log("TRIG: "+trig);
+      
+    
+       
+       //trig=stackKeys[0]+stackKeys[1]+stackKeys[2]+stackKeys[3];
+       //console.log("trig= "+trig);
 
        if (trig.includes('""')){
          event.preventDefault();
-         replaceWithKeys('""');        
+         replaceWithKeys('""'); 
+         vaciarStack();
+       
        }
 
 
        if (trig.includes(">>")&&mode=="normal"){
          event.preventDefault();
          replaceWithKeys("<>")
+         vaciarStack();
        }
 
        if (trig.includes("}}")&&mode=="normal"){
          event.preventDefault();
          replaceWithKeys("{}")
+         vaciarStack();
        }
        if (trig.includes("]]")&&mode=="normal"){
          event.preventDefault();
          replaceWithKeys("[]")
+         vaciarStack();
        }
        if (trig.includes("''")&&mode=="normal"){
          event.preventDefault();
          replaceWithKeys("''")
+         vaciarStack();
        }
        if (trig.includes("``")&&mode=="normal"){
          event.preventDefault();
          replaceWithKeys("``")
+         vaciarStack();
        }
        if (trig.includes("kj")&&mode=="normal"){
          event.preventDefault();
@@ -2662,10 +2723,8 @@ function stackKeysFunction(event){
          modo.value="COMMAND";
          removeChars(-2); 
          
-         stackKeys.shift();
-         //stackKeys.shift();
-         //stackKeys.pop();
-         //stackKeys.pop(); 
+         vaciarStack();
+       
 
        }
        if(trig.includes("yy")&&mode=="command"){
@@ -2678,29 +2737,91 @@ function stackKeysFunction(event){
          clipboard="yy"+node.textContent;
          console.log(clipboard);
          
-         stackKeys.shift(); 
+         vaciarStack();
        }
-       if(trig.includes("gg")&&mode=="command"){
+       if(trig.includes("gg")&&(mode=="command"||mode=="visualLine")){
          event.preventDefault();
+         console.log("Se cacha el comando gg");
+         mode="command";
+         modo.value="COMMAND";
          let pos=getCurrentCaretPos();
          setCaretPosHere(mainDiv.childNodes[0],pos);
-         
-         stackKeys.shift(); 
+         let node=getCurrentNode();
+         mainDiv.childNodes[0].scrollIntoView({block: "center"});
+         vaciarStack(); 
        }
+       if(trig.includes("gj")&&(mode=="command"||mode=="visualLine")){
+         event.preventDefault();
+         console.log("Se cacha el comando gg");
+         
+         let indexNode=getNodeIndex();
+         let node=getCurrentNode();
+         let anchoCliente=mainDiv.childNodes[indexNode].clientWidth;
+         let len=node.textContent.length;
+         //console.log("anchoCliente: "+anchoCliente);
+         //69 caracteres son a 1000 px como X caracterese son a Y px
+         let widthInChars=parseInt(anchoCliente*69/780);
+         //console.log("widthInChars: "+widthInChars);
+      
+         let pos=getCurrentCaretPos();
+         
+         let newPos=widthInChars+pos;      
+         
+         if(newPos>len){
+           return;
+         }
+
+
+         setCaretPosHere(node,newPos);
+
+         mode="command";
+
+         vaciarStack();
+       }
+       if(trig.includes("gk")&&(mode=="command"||mode=="visualLine")){
+         event.preventDefault();
+         console.log("Se cacha el comando gg");
+         let indexNode=getNodeIndex();
+         let node=getCurrentNode();
+         let anchoCliente=mainDiv.childNodes[indexNode].clientWidth;
+         let len=node.textContent.length;
+         //console.log("anchoCliente: "+anchoCliente);
+         //69 caracteres son a 1000 px como X caracterese son a Y px
+         let widthInChars=parseInt(anchoCliente*69/780);
+         //console.log("widthInChars: "+widthInChars);
+      
+         let pos=getCurrentCaretPos();
+         let newPos=pos-widthInChars; 
+
+         if(newPos<=0){
+           return;
+         }
+     
+
+         setCaretPosHere(node,newPos);
+
+         vaciarStack();
+       }
+
+
+
+
        if(trig.includes("G")&&mode=="command"){
          event.preventDefault();
          let pos=getCurrentCaretPos();
          
          let indexNode=mainDiv.childNodes.length-1;
-         //console.log("debug 034");
+         console.log("Se cacha la G");
          let goTo="";         
 
          for(let a=0; a<=2; a++){
-           let symbol=stackKeys.shift();
+           let symbol=stackKeys.pop();
+           console.log("SYMBOL:  "+symbol);
            if(parseInt(symbol)||symbol==0){
              goTo+=""+symbol;
            }
          }
+         goTo=goTo.split('').reverse().join('');
          goTo=parseInt(goTo);
 
 
@@ -2723,8 +2844,14 @@ function stackKeysFunction(event){
          //console.log("indexNode: "+indexNode);
 
          setCaretPosHere(mainDiv.childNodes[indexNode],pos);
+
          
-       }
+         mainDiv.childNodes[indexNode].scrollIntoView({block: "center"});
+
+          
+         vaciarStack(); 
+         
+       }   
 
        /*
        if(/f[a-z0-9]+/.test(trig)&&mode=="command"){
@@ -2773,18 +2900,13 @@ function stackKeysFunction(event){
          document.getSelection().removeAllRanges(); 
          document.getSelection().addRange(range); 
 
-         stackKeys.shift();
-         //stackKeys.shift();
-         //stackKeys.pop();
-         //stackKeys.pop();
+         vaciarStack();
         
        }
        if(trig.includes("ciw")&&mode=="normal"){
          cleanInnerWord();
 
-         stackKeys.shift();
-         stackKeys.shift();
-         //stackKeys.shift();
+         vaciarStack();
          
        }
        if(trig.includes("viw")&&mode=="visualNormal"){
@@ -2794,14 +2916,11 @@ function stackKeysFunction(event){
 
 
 
-         stackKeys.shift();
-         stackKeys.shift();
-         //stackKeys.shift();
+         vaciarStack();
          
        }
 
-       stackKeys.shift();
-    }
+    //}
  //}
      
 ////////////////////////////////////////////////////////////////////////////
@@ -2882,13 +3001,15 @@ viCommand.addEventListener("keyup", function(event){
    if(event.key==="Enter"){
      
      let com=viCommand.value;  
-   
+     console.log("DEBUG041");
      if(com.slice(0,1)=='/'){
+       event.preventDefault();
        let com=viCommand.value;
-       pat=com.slice(1);
-       let node=mainDiv.childNodes[pivote[1]];
-       
-       buscar(pat,node);
+       pat=com.slice(2);
+       let indexNode=pivote[1];
+
+        buscar(pat,mainDiv.childNodes[indexNode]);
+        
      }
 
      if(com.slice(0,1)==':'){
@@ -2897,15 +3018,7 @@ viCommand.addEventListener("keyup", function(event){
      
        if(com=="ul"){
          fileUpload();
-
-         /*let range=new Range();
-         range.setStart(mainDiv.childNodes[pivote[1]].firstChild,pivote[0]);
-         range.setEnd(maindDiv.childNodes[pivote[1]].firstChild,pivote[0]);
-         let sel=document.getSelection();  
-         sel.removeAllRanges();
-         sel.addRange(range);*/
-         //mode='command';
-         //viCommand.value="";
+         
        }
 
        if(com.slice(0,1)=="w"){
@@ -2921,13 +3034,22 @@ viCommand.addEventListener("keyup", function(event){
          }
          console.log("name: "+file2save);      
          fileSave(file2save);
-  
+         setCaretPosHere(mainDiv.childNodes[pivote[1]],pivote[0]);
     
        }
  
        if(com.slice(0,1)=="o"){
+
+         let thisFile=com.slice(2);    
+           
+         if(thisFile){
+           
+           php_getContent(thisFile) // abre directamente el archivo.
+           return;
+         }
          
-         fileOpen();
+
+         fileOpen(); //Usa el asistente.
 
          
          //NOTA: debido a que la descarga es asincronica la funcion  la funcion setCaretPosHere() no funciona adecuadamente. 
@@ -2951,26 +3073,19 @@ viCommand.addEventListener("keyup", function(event){
            mainDiv.childNodes[i].replaceChild(txt,mainDiv.childNodes[i].firstChild);
          } 
 
-
+         setCaretPosHere(mainDiv.childNodes[pivote[1]],pivote[0]);
 
        }
 
        if(com.slice(0,2)=="dl"){
          let file2save=com.slice(3);
          fileDownload(file2save);
-         /*
-         let range=new Range();
-         range.setStart(mainDiv.childNodes[pivote[1]].firstChild,pivote[0]);
-         range.setEnd(mainDiv.childNodes[pivote[1]].firstChild,pivote[0]);
-         let sel=document.getSelection();  
-         sel.removeAllRanges();
-         sel.addRange(range);*/
-         //mode='command';
-         //viCommand.value="";
+         setCaretPosHere(mainDiv.childNodes[pivote[1]],pivote[0]);
        }
        
        if(com.slice(0,2)=="r"){
          runProgram();
+         setCaretPosHere(mainDiv.childNodes[pivote[1]],pivote[0]);
          /*
          let range=new Range();
          range.setStart(mainDiv.childNodes[pivote[1]].firstChild,pivote[0]);
@@ -2988,7 +3103,7 @@ viCommand.addEventListener("keyup", function(event){
      viCommand.value="";
      comDiv.style.display="none";
      statusBar.style.display="block";
-     setCaretPosHere(mainDiv.childNodes[pivote[1]],pivote[0]);
+     //setCaretPosHere(mainDiv.childNodes[pivote[1]],pivote[0]);
 
 
    }
@@ -3075,18 +3190,22 @@ function buscar(pat,node){
 
        console.log("debug 013");
 
-       let range=new Range();
-       let sel=document.getSelection(); 
+     
 
        if(pos==-1){
          console.log("La buqueda no produjo resultados");
-         pos=pivote[0]; 
+         pos=0; 
 
          
        }
 
-       //console.log("indexNode= "+indexNode);
-       //console.log("pos= "+pos);
+       console.log("MODE: "+mode);
+
+       console.log("indexNode= "+indexNode);
+       console.log("pos= "+pos);
+       
+       let range=new Range();
+       let sel=document.getSelection(); 
        
        
        range.setStart(mainDiv.childNodes[indexNode].childNodes[0],pos);
@@ -3094,8 +3213,12 @@ function buscar(pat,node){
         
        sel.removeAllRanges();
        sel.addRange(range);
+
        mode='command';
        viCommand.value="";
+       console.log("DEBUG042");
+
+       mainDiv.childNodes[indexNode].scrollIntoView({block: "center"});
 
 }
 
@@ -3196,6 +3319,7 @@ function fileSave(file){
     let httpPOST = new XMLHttpRequest();
        
     httpPOST.open("POST", "writeFile4B.php",true);
+    httpPOST.overrideMimeType("text/plain; charset=utf8");
     httpPOST.send(formData);
 
 
@@ -3248,20 +3372,7 @@ function runProgram(){
 function fileOpen(){
   openFileDialog.style.display="block";
   
-  
 
-
-  /*
-  console.log('se ha entrado en openFileDialog()');
-  const fileDialog = document.createElement("div");
-  fileDialog.id='id_floating_div';
-  fileDialog.className='floating_div_class';
-  fileDialog.innerHTML = "cargando...";
-  const parent = document.querySelector("body");
-
-  parent.appendChild(fileDialog);
-  
-  */
  
   //fileDialog.innerHTML=viewThisDir();
   viewThisDir();
@@ -3366,7 +3477,7 @@ function php_getContent($file){
    
    while(mainDiv.firstChild){
      mainDiv.removeChild(mainDiv.lastChild);
-   }
+   }//Este codigo es para borrar todas las lineas del archvo.
 
    let formData =new FormData();
    var thisFile=$file;
@@ -3393,8 +3504,10 @@ function php_getContent($file){
 
           for(let l=0;l<lines.length;l++){
             let div=document.createElement("div");
-            let txt=document.createTextNode(lines[l].replace(/\s/g,"\u00A0"));
-
+            //let txt=document.createTextNode(lines[l].replace(/\s/g,"\u200b"));
+            //Si estas aqui es por el problema de los espacios. Ver white-space:pre;
+            let txt=document.createTextNode(lines[l]);
+  
             div.appendChild(txt);
             mainDiv.appendChild(div);
           }
@@ -3409,11 +3522,15 @@ function php_getContent($file){
           fileName.innerHTML=thisFile;
           document.title="VIMJS - "+thisFile;
           
-          setCaretPosHere(mainDiv.firstChild,0);
+          
 
           //setTimeout(function(){},500);
           close_div();
-
+          flag="none";
+          statusBar.style.display="block";
+          comDiv.style.display="none";
+          mode="command";
+          setCaretPosHere(mainDiv.childNodes[0],0);
            
        }
     }  
@@ -3421,6 +3538,8 @@ function php_getContent($file){
        
     httpPOST.open("POST", "notepad4B.getContentFile.php",true);
     httpPOST.send(formData);
+
+
 
     /*
     let range=new Range();
@@ -3447,8 +3566,15 @@ function close_div(){
 
 function welcome(){
   
-  console.log('debug039');
-  for(let o=0; o<24; o++){  
+ // console.log('debug039');
+  // console.log(window.innerHeight);
+  //console.log(window.innerWidth);
+
+// 23 lineas son a 649px como X lineas son a Y px.  
+  numOfLines=parseInt(window.innerHeight*29/649);
+
+
+  for(let o=0; o<numOfLines; o++){  
     let lineNode=document.createElement("DIV");
     let txtNode=document.createTextNode("~");
     lineNode.appendChild(txtNode);
@@ -3488,6 +3614,8 @@ mainDiv.childNodes[15].firstChild.textContent="~\u00A0\u00A0\u00A0\u00A0\u00A0\u
 function startingEdit(){
 
   console.log("Debug040");
+  
+
   
   mainDiv.childNodes[0].firstChild.textContent="\u00A0";
 
