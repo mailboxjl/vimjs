@@ -17,7 +17,6 @@
 ######################################################################################## -->
 
 
-
 <style>
 
  .sel{
@@ -55,12 +54,12 @@
 
 
  .content{
-   white-space: pre;
+   //white-space: pre;
    background-color: #000;
    height: 87%;
    width: 97.5%;
    //border-bottom: 1px #141414 dotted;
-
+   word-wrap: break-word;
    //background-color: #000;
    border: 0px solid #000;
    color: #0f0;
@@ -856,10 +855,14 @@ function undoByChar(){
     let nodeIndex=getNodeIndex();
     let pos=getCurrentCaretPos();
     let stateOfLine=[];
-    stateOfLine[0]=mainDiv.childNodes[nodeIndex].textContent;
-    stateOfLine[1]=pos;
+    stateOfLine[0]=mainDiv.innerText;
+    stateOfLine[1]=nodeIndex;
+    stateOfLine[2]=pos;
+
+    console.log("nodeIndex: "+nodeIndex+" pos: "+pos);
+
     undo.push(stateOfLine);
-    if (undo.length > 30) {
+    if (undo.length > 100) {
       let char=undo.pop();
       undo.shift();
     }
@@ -1453,8 +1456,7 @@ function findFunctions(event){
 
 function keysUP(event){
 
-  
-
+   
 
   //console.log("debug 035");
 
@@ -1575,9 +1577,7 @@ function keysUP(event){
      
    }
 
-   if(event.key=="Escape"&&mode=='normal'){
-     console.log("Escape was pressed");
-   }
+  
 
    if(event.key=="u"&&mode=='command'){
 
@@ -1588,15 +1588,37 @@ function keysUP(event){
           return;
       }
  
-      let node=getCurrentNode();
 
-      //console.log("UNDO ANTES= "+undo+"--------------  ");
-      //console.log("REDO ANTES= "+redo+"--------------  ");
-      
+      while(mainDiv.firstChild){
+         mainDiv.removeChild(mainDiv.lastChild);
+      }//Este codigo es para borrar todas las lineas del archvo.
+
+
       let undoItem;
       undoItem=undo.pop();
-      //let len=undoItem[0].length;
-      //console.log("undoItem= "+undoItem[0].includes("kj"));
+
+      let pos=undoItem[2];
+      let indexNode=undoItem[1];
+
+
+
+      const lines=undoItem[0].split("\n");          
+          
+ 
+      //let node=getCurrentNode();
+
+
+      for(let l=0;l<lines.length;l++){
+         let div=document.createElement("div");
+         //let txt=document.createTextNode(lines[l].replace(/\s/g,"\u200b"));
+         //Si estas aqui es por el problema de los espacios. Ver white-space:pre;
+         let txt=document.createTextNode(lines[l]);
+  
+         div.appendChild(txt);
+         mainDiv.appendChild(div);
+      }
+
+
       redo.push(undoItem);
       
       if(undoItem[0].includes("kj")){
@@ -1610,22 +1632,15 @@ function keysUP(event){
       
           
       }
-      //console.log("undoItem= "+undoItem[0]);
 
 
-      let newNode=document.createTextNode(undoItem[0]);
-      let pos=undoItem[1];
-
-      node.replaceChild(newNode,node.childNodes[0]);
-
+      
       let range=new Range();
-      range.setStart(node.childNodes[0],pos);
-      range.setEnd(node.childNodes[0],pos);
+      range.setStart(mainDiv.childNodes[indexNode].firstChild,pos);
+      range.setEnd(mainDiv.childNodes[indexNode].firstChild,pos);
       document.getSelection().removeAllRanges();
       document.getSelection().addRange(range);
       
-      //console.log("UNDO DESPUES= "+undo+"--------------  ");
-      //console.log("REDO DESPUES= "+redo+"--------------  ");
       
      
    }
@@ -1633,8 +1648,8 @@ function keysUP(event){
 
 
 
-   if(event.ctrlKey&&event.key=="r"&&mode=='command'){
-
+   //if(event.ctrlKey&&event.key=="r"&&mode=='command'){
+   if(event.key=="u"&&mode=='command'){
       console.log("Ctrl+r was triggered");
       event.preventDefault();
       event.stopPropagation();
@@ -1645,14 +1660,36 @@ function keysUP(event){
       }
       //console.log("  key combination was detected   ");
  
-      
+      while(mainDiv.firstChild){
+         mainDiv.removeChild(mainDiv.lastChild);
+      }//Este codigo es para borrar todas las lineas del archvo.
 
-      let node=getCurrentNode();
 
-      //console.log("UNDO ANTES= "+undo+"--------------  ");
-     // console.log("REDO ANTES= "+redo+"--------------  ");
-      
       let redoItem;
+      redoItem=redo.pop();
+
+      let pos=redoItem[2];
+      let indexNode=redoItem[1];
+
+
+
+      const lines=redoItem[0].split("\n");             
+
+      for(let l=0;l<lines.length;l++){
+         let div=document.createElement("div");
+         //let txt=document.createTextNode(lines[l].replace(/\s/g,"\u200b"));
+         //Si estas aqui es por el problema de los espacios. Ver white-space:pre;
+         let txt=document.createTextNode(lines[l]);
+  
+         div.appendChild(txt);
+         mainDiv.appendChild(div);
+      }
+
+
+      undo.push(redoItem);
+
+
+
      
       redoItem=redo.pop();
       undo.push(redoItem);
@@ -1664,19 +1701,11 @@ function keysUP(event){
       }
       
 
-      let newNode=document.createTextNode(redoItem[0]);
-      let pos=redoItem[1];
-
-      node.replaceChild(newNode,node.childNodes[0]);
-
       let range=new Range();
-      range.setStart(node.childNodes[0],pos);
-      range.setEnd(node.childNodes[0],pos);
+      range.setStart(mainDiv.childNodes[indexNode].firstChild,pos);
+      range.setEnd(mainDiv.childNodes[indexNode].firstChild,pos);
       document.getSelection().removeAllRanges();
       document.getSelection().addRange(range);
-      
-      //console.log("UNDO DESPUES= "+undo+"--------------  ");
-      //console.log("REDO DESPUES= "+redo+"--------------  ");
       
      
    }
@@ -1748,7 +1777,7 @@ function keysUP(event){
    if(event.key==="d"&&mode=='command'){
      //event.preventDefault();
      console.log("debug028");
-     removeChars(-1);
+     removeChars(+1);
    }
    
    if(event.key==="x"&&mode=='command'){
@@ -1963,7 +1992,11 @@ function keysUP(event){
        setCaretPosHere(node.childNodes[0],len);
 
        //console.log(clipboard);
-     } 
+     }
+     if(mode=="normal"){
+       return;
+       
+     }  
      mode="command";
      modo.value="COMMAND";
   }
@@ -2076,7 +2109,9 @@ function keysUP(event){
        //console.log(clipboard);
      }
 
- 
+     if(mode=="normal"){
+       return;
+     }
      mode="command";
      modo.value="COMMAND";
   }
@@ -2175,7 +2210,7 @@ function keysUP(event){
        let secondPart=node.childNodes[0].textContent.slice(offsetB,len);
        node.childNodes[0].textContent=firstPart+secondPart;
        
-       setCaretPosHere(node.childNodes[0],pos);
+       setCaretPosHere(node,pos);
 
        
      }
@@ -2202,9 +2237,52 @@ function keysUP(event){
      
      }
      
+
+
+  }
+
+  if(event.key==="I"&&mode=="command"){
+     event.preventDefault();
+     mode="normal";
+     modo.value="NORMAL";
+     
+     if(flag=="wel"){
+       console.log("debug041");
+       startingEdit();  
+       
+     
+     } 
+     let node=getCurrentNode();
+     setCaretPosHere(node,0);
+    
   }
 
   if(event.key=="a"&&mode=="command"){
+    moveCaretH(+1);
+    mode="normal";
+    modo.value="NORMAL";
+
+    if(flag=="wel"){
+       console.log("debug041");
+       startingEdit();  
+    }
+
+  }
+
+  if(event.key=="A"&&mode=="command"){
+   
+    
+    event.preventDefault();
+    let node=getCurrentNode().childNodes[0];
+    let endOfLine=node.textContent.length;
+     
+    let range=new Range();  
+    range.setStart(node,endOfLine); 
+    range.setEnd(node,endOfLine);
+    document.getSelection().removeAllRanges(); 
+    document.getSelection().addRange(range);
+
+    
     moveCaretH(+1);
     mode="normal";
     modo.value="NORMAL";
@@ -2226,10 +2304,115 @@ function keysUP(event){
     }
   }
 
+  if(event.key=="S"&&mode=="command"){
+
+     event.preventDefault();
+     let node=getCurrentNode();
+     let indexNode=getNodeIndex();
+     console.log(mainDiv.childNodes[0].isSameNode(node));
+     if(mainDiv.firstChild.isSameNode(node)){
+        indexNode=1;
+        let txt=document.createTextNode("\u00A0");
+        node.replaceChild(txt,node.firstChild);
+          
+     } 
+     console.log("length of text= "+node.childNodes[0].textContent.length)
+         
+         
+     if(mainDiv.childNodes.length!=1){
+       node.remove();
+     }
+      
+     let range=new Range();  
+
+
+     console.log("INDEX NODE: ");
+
+
+     range.setStart(mainDiv.childNodes[indexNode-1].childNodes[0],0); 
+     range.setEnd(mainDiv.childNodes[indexNode-1].childNodes[0],0);
+     document.getSelection().removeAllRanges(); 
+     document.getSelection().addRange(range); 
+
+     let   newNode = document.createElement("div");
+     let   textNode= document.createTextNode("\u00A0");
+     newNode.appendChild(textNode);
+     let thisNode=getCurrentNode();
+     thisNode.insertAdjacentElement('afterend',newNode);
+
+     setCaretPosHere(newNode,0);
+     /*let range=new Range();  
+     range.setStart(newNode.childNodes[0],0); 
+     range.setEnd(newNode.childNodes[0],0);
+     document.getSelection().removeAllRanges(); 
+     document.getSelection().addRange(range);*/
+
+
+     mode="normal";
+     modo.value="NORMAL";
+     console.log("scrolling");
+     //mainDiv.scrollTo(0, 2000);
+
+
+
+  }
+
+
 
 
   if(event.key=="c"&&mode=="command"){
     removeChars(+1);
+    mode="normal";
+    modo.value="NORMAL";
+    if(flag=="wel"){
+       console.log("debug041");
+       startingEdit();  
+    }
+  }
+
+
+
+  if(event.key=="C"&&mode=="command"){
+
+    event.preventDefault();
+    let node=getCurrentNode().childNodes[0];
+    let len=node.textContent.length;
+    let pos= getCurrentCaretPos();
+    let firstPart=node.textContent.slice(0,pos);
+    let lastPart=node.textContent.slice(pos+1,len);
+
+    let newContent=document.createTextNode(firstPart);
+    
+    //////////////////////////////////////////////////////////////
+    // debido a comportamiento de cambiar de nodo automaticamente
+    // al vaciar el texto del nodo se inserta este espacio vacio
+    
+    if(len==1){
+        newContent=document.createTextNode('\u00A0');
+    }
+
+    //////////////////////////////////////////////////////////////
+   
+    if(pos==0){
+      pos=0;
+      numOfChars=0;
+      newContent=document.createTextNode(lastPart.slice(1,lastPart.length)+'\u00A0');
+    }
+
+    //node.replaceChild(newContent,node);
+    
+    node.textContent=newContent.textContent;
+
+    //node=node.childNodes[0];
+  
+    let range=new Range();  
+    range.setStart(node,pos); 
+    range.setEnd(node,pos);
+    document.getSelection().removeAllRanges(); 
+    document.getSelection().addRange(range);
+
+
+    //removeChars(+1);
     mode="normal";
     modo.value="NORMAL";
     if(flag=="wel"){
@@ -2256,23 +2439,12 @@ function keysUP(event){
     let pos=getCurrentCaretPos();
     let node=getCurrentNode();
 
-    //let txt=node.childNodes[0].textContent;
-    //let span=document.createElement("span");
-    //let txtSpan=document.createTextNode(txt);
-    //span.appendChild(txtSpan);
-    //node.replaceChild(span,node.childNodes[0]); 
-    //span.classList.add("sel");
+
     
 
     node.classList.add("sel");
     
-    //let range=new Range();
-    //range.setStart(node,0);
-    //range.setEnd(node,0);
     
-    //let sel=document.getSelection();
-    //sel.removeAllRanges();
-    //sel.addRange(range);     
 
   }
 
@@ -2319,7 +2491,16 @@ function keysUP(event){
     
   }
 
-
+  if(event.key=="N"&&mode=="command"){
+    event.preventDefault();
+    console.log("se busca la siguiente coincidencia");
+    let indexNode=getNodeIndex();
+    if(indexNode==(mainDiv.childNodes.length-1)){
+      indexNode=-1; 
+    }
+    buscarAtras(pat,mainDiv.childNodes[indexNode]);
+    
+  }
 
 
 
@@ -2986,7 +3167,7 @@ function stackKeysFunction(event){
 
 
 
-
+    /*
        if(trig.includes("dd")&&mode=="command"){
          event.preventDefault();
          let node=getCurrentNode();
@@ -3018,7 +3199,9 @@ function stackKeysFunction(event){
 
          vaciarStack();
         
-       }
+       } */
+       
+
        if(trig.includes("ciw")&&mode=="normal"){
          cleanInnerWord();
 
@@ -3103,7 +3286,20 @@ window.addEventListener("beforeunload", function (event) {
 
 viCommand.addEventListener("keyup", function(event){
    
-   
+   if(event.key=="Escape"){
+
+       
+        //openFileDialog.style.display="none";
+        setCaretPosHere(mainDiv.childNodes[pivote[1]],pivote[0]);
+ 
+
+        mode='command';
+        modo.value="COMMAND";
+        comDiv.style.display="none";
+        statusBar.style.display="block";
+        viCommand.value=""; 
+
+   }
 
 
    if(event.ctrlKey&&event.key=="c"&&mode=='vi'){
@@ -3130,7 +3326,7 @@ viCommand.addEventListener("keyup", function(event){
      if(com.slice(0,1)=='/'){
        event.preventDefault();
        let com=viCommand.value;
-       pat=com.slice(2);
+       pat=com.slice(1);
        let indexNode=pivote[1];
 
         buscar(pat,mainDiv.childNodes[indexNode]);
@@ -3221,15 +3417,20 @@ viCommand.addEventListener("keyup", function(event){
          //mode='command';
          //viCommand.value="";
        }
+
+       setCaretPosHere(mainDiv.childNodes[pivote[1]],pivote[0]);
        
 
      }
+
+
+
      mode='command';
      viCommand.value="";
      comDiv.style.display="none";
      statusBar.style.display="block";
-     //setCaretPosHere(mainDiv.childNodes[pivote[1]],pivote[0]);
-
+     //
+     
 
    }
 
@@ -3284,12 +3485,7 @@ openFileDialog.addEventListener("keydown", function(event){
 
 function buscar(pat,node){
        
- 
-       //console.log("se brinca a la primera coincidencia");
 
-       //let node=getCurrentNode();
-
-       //console.log("pivote en 2: "+pivote[1]);
        
        let indexNode=0;
        for(let i=0; i<=mainDiv.childNodes.length; i++){
@@ -3300,7 +3496,8 @@ function buscar(pat,node){
          }
           
        }
-       //console.log("indexNode= "+indexNode);
+
+
        let pos;
        for(let l=indexNode; l<mainDiv.childNodes.length; l++){
          let txt=mainDiv.childNodes[l].textContent;
@@ -3309,7 +3506,81 @@ function buscar(pat,node){
          //console.log("txt= "+txt);
 
          pos=txt.indexOf(pat);
-         console.log("pos= "+pos);
+         console.log("pos= "+pos+" index: "+indexNode);
+
+         
+         if(pos!=-1){
+           indexNode=l;
+           break;          
+         }
+       }
+
+       if(pos==-1){
+         console.log("La buqueda no produjo resultados");
+         pos=0; 
+
+         
+       }
+
+
+       
+       let range=new Range();
+       let sel=document.getSelection(); 
+       
+
+       range.setStart(mainDiv.childNodes[indexNode].childNodes[0],pos);
+       range.setEnd(mainDiv.childNodes[indexNode].childNodes[0],pos);
+        
+       sel.removeAllRanges();
+       sel.addRange(range);
+
+       mode='command';
+       viCommand.value="";
+       console.log("DEBUG042");
+
+       mainDiv.childNodes[indexNode].scrollIntoView({block: "center"});
+
+
+    let select=window.getSelection();
+    let offsetA=select.getRangeAt(0).startOffset;
+    let offsetB=select.getRangeAt(0).endOffset;
+    const node2=getCurrentNode();
+
+
+ 
+    let range2=new Range();  
+    range2.setStart(node2.childNodes[0],pos); 
+    range2.setEnd(node2.childNodes[0],pos+pat.length);
+    document.getSelection().removeAllRanges(); 
+    document.getSelection().addRange(range2);     
+
+
+
+}
+
+function buscarAtras(pat,node){
+   
+       //ENCUENTRA la posicion actual
+       let indexNode=0;
+       for(let i=0; i<=mainDiv.childNodes.length; i++){
+         if(mainDiv.childNodes[i].isSameNode(node)){
+           indexNode=i; 
+           break;
+         }
+          
+       }
+       //console.log("indexNode= "+indexNode);
+
+       // BUSCA EN LOS NODOS ANTERIORES
+       let pos;
+       for(let l=indexNode-1; l>=0 ; l--){
+         let txt=mainDiv.childNodes[l].textContent;
+
+
+         pos=txt.indexOf(pat);
+         console.log("pos= "+pos+" index: "+indexNode);
+         
+ 
          
          if(pos!=-1){
            indexNode=l;
@@ -3336,10 +3607,12 @@ function buscar(pat,node){
        let range=new Range();
        let sel=document.getSelection(); 
        
+       console.log("El valor de pos es: "+pos);
        
+ 
+
        range.setStart(mainDiv.childNodes[indexNode].childNodes[0],pos);
-       range.setEnd(mainDiv.childNodes[indexNode].childNodes[0],pos);
-        
+       range.setEnd(mainDiv.childNodes[indexNode].childNodes[0],pos);        
        sel.removeAllRanges();
        sel.addRange(range);
 
@@ -3349,8 +3622,23 @@ function buscar(pat,node){
 
        mainDiv.childNodes[indexNode].scrollIntoView({block: "center"});
 
-}
 
+       let select=window.getSelection();
+       let offsetA=select.getRangeAt(0).startOffset;
+       let offsetB=select.getRangeAt(0).endOffset;
+       const node2=getCurrentNode();
+
+
+ 
+       let range2=new Range();  
+       range2.setStart(node2.childNodes[0],pos); 
+       range2.setEnd(node2.childNodes[0],pos+pat.length);
+       document.getSelection().removeAllRanges(); 
+       document.getSelection().addRange(range2);  
+
+      
+
+}
 
 
 
