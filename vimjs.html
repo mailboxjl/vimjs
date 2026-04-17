@@ -3362,9 +3362,9 @@ viCommand.addEventListener("keyup", function(event){
        if(com.slice(0,1)=="o"){
 
          let thisFile=com.slice(2);    
-           
+           console.log("MENSAJE 2 ");
          if(thisFile){
-           
+           console.log("MENSAJE 3 ");
            php_getContent(thisFile) // abre directamente el archivo.
            return;
          }
@@ -3374,7 +3374,7 @@ viCommand.addEventListener("keyup", function(event){
 
          
          //NOTA: debido a que la descarga es asincronica la funcion  la funcion setCaretPosHere() no funciona adecuadamente. 
-         
+         console.log("MENSAJE 4 ");
          
 
        }
@@ -3787,10 +3787,11 @@ function runProgram(){
 
 
 function fileOpen(){
-  openFileDialog.style.display="block";
-  
 
- 
+  openFileDialog.style.display="block";
+
+  
+  
   //fileDialog.innerHTML=viewThisDir();
   viewThisDir();
   
@@ -3871,9 +3872,11 @@ function viewThisDir(){
            openFileDialog.innerHTML='<center> <br><input type="button" class="button-menu"  id="id_text_floating" value="Files Sorted By Date"/><br> '+data+'</center>';
 
            
-           
+           console.log("debug501");
            let hidden=document.getElementById("id_text_floating");
            hidden.select();
+           hidden.focus();
+           console.log("debug502");
           
 
           
