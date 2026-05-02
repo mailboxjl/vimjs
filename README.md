@@ -7,5 +7,5 @@ You can check this application in next link
 https://buzonjl2026.xyz/proyectos_js/vimjs/vimjs025.html
 
 
-Copy files vimjs.html, and three php files to a server with php and joy.
+Copy files vimjs.html, and three php files to a server with php and enjoy.
 
