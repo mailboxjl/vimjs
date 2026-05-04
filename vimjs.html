@@ -643,17 +643,17 @@ function moveByWord(numOfWords){
      let i=0;
      if(numOfWords==-1){
 
-        scannerChar="";
+        scannedChar="";
         i=0;
         for(;;){
             scannedChar=textLine.slice(pos-i-1,pos-i);
             i++;
-            if(scannedChar!=" "||pos-i<=0){break;}
+            if(scannedChar!=" "||scannedChar=="."||scannedChar=="("||scannedChar==","||pos-i<=0){break;}
         }
         for(;;){
             scannedChar=textLine.slice(pos-i-1,pos-i); 
             i++; 
-            if(scannedChar==" "||pos-i<=0){break;}
+            if(scannedChar==" "||scannedChar=="."||scannedChar=="("||scannedChar==","||pos-i<=0){break;}
         }
         offsetA=pos-i;
         console.log("3009");
@@ -661,22 +661,23 @@ function moveByWord(numOfWords){
      
      if(numOfWords==+1){
 
-        scannerChar="";
+        scannedChar="";
         i=0;
-        console.log("I: "+i);
+        //console.log("I: "+i);
         for(;;){
             scannedChar=textLine.slice(pos+i,pos+i+1);
             i++;
-            if(scannedChar!=" "||pos+i>=len){break;}
+            if(scannedChar!=" "||scannedChar=="."||scannedChar=="("||scannedChar==","||pos+i>=len){break;}
         }
-        console.log("I: "+i);
+        //console.log("I: "+i);
         for(;;){
             scannedChar=textLine.slice(pos+i,pos+i+1); 
             i++; 
-            if(scannedChar==" "||pos+i>=len){break;}
+            if(scannedChar==" "||scannedChar=="."||scannedChar=="("||scannedChar==","||pos+i>=len){break;}
         }
         offsetA=pos+i;
-        console.log("I: "+i);
+        console.log("3015");        
+//console.log("I: "+i);
      }
 
 
@@ -687,7 +688,7 @@ function moveByWord(numOfWords){
 
      posOfWord=offsetA;
 
-     console.log("OFFSETA= "+offsetA);
+     //console.log("OFFSETA= "+offsetA);
 
      //console.log("OFFSETB= "+offsetB);
 
@@ -717,10 +718,10 @@ function moveByWord(numOfWords){
        return;
      }
 
-     console.log("INDEXNODE: "+indexNode);
-     console.log("POSOFWORD: "+posOfWord);
-     console.log("INNERHTML "+mainDiv.childNodes[indexNode].innerHTML);
-     console.log("POS: "+pos);
+     //console.log("INDEXNODE: "+indexNode);
+     //console.log("POSOFWORD: "+posOfWord);
+     //console.log("INNERHTML "+mainDiv.childNodes[indexNode].innerHTML);
+     //console.log("POS: "+pos);
 
     
      let range=new Range();
@@ -884,13 +885,29 @@ function deleteByWord(numOfWords){
         for(;;){
             scannedChar=textLine.slice(pos-i-1,pos-i);
             i++;
-            if(scannedChar!=" "||pos-i<=0){break;}
+            if(scannedChar!=" "||
+                                 scannedChar=="'"||scannedChar=='"'||
+                                 scannedChar=="."||scannedChar==","||
+                                 scannedChar=="("||scannedChar==")"||
+                                 scannedChar=="<"||scannedChar==">"||
+                                 scannedChar=="="||
+                                 scannedChar=="{"||scannedChar=="}"||
+                                 scannedChar=="["||scannedChar=="]"||
+                                 pos-i<=0){break;}
             
         }
         for(;;){
             scannedChar=textLine.slice(pos-i-1,pos-i); 
             i++; 
-            if(scannedChar==" "||pos-i<=0){break;}
+            if(scannedChar==" "||
+                                 scannedChar=="'"||scannedChar=='"'||
+                                 scannedChar=="."||scannedChar==","||
+                                 scannedChar=="("||scannedChar==")"||
+                                 scannedChar=="<"||scannedChar==">"||
+                                 scannedChar=="="||
+                                 scannedChar=="{"||scannedChar=="}"||
+                                 scannedChar=="["||scannedChar=="]"||
+                                 pos-i<=0){break;}
             
         }
         offsetA=pos-i;
@@ -902,7 +919,15 @@ function deleteByWord(numOfWords){
         for(;;){
             scannedChar=textLine.slice(pos-i-1,pos-i); 
             i++; 
-            if(scannedChar!=" "||pos-i<=0){break;}
+            if(scannedChar!=" "||
+                                 scannedChar=="'"||scannedChar=='"'||
+                                 scannedChar=="."||scannedChar==","||
+                                 scannedChar=="("||scannedChar==")"||
+                                 scannedChar=="<"||scannedChar==">"||
+                                 scannedChar=="="||
+                                 scannedChar=="{"||scannedChar=="}"||
+                                 scannedChar=="["||scannedChar=="]"||
+                                 pos-i<=0){break;}
             
         }
         
@@ -913,29 +938,53 @@ function deleteByWord(numOfWords){
      if(numOfWords==+1){
 
 
-        scannerChar="";
+        scannedChar="";
         i=0;
         for(;;){
             scannedChar=textLine.slice(pos+i,pos+i+1);
             i++;
-            if(scannedChar!=" "||pos+i>=len){break;}
+            if(scannedChar!=" "||
+                                 scannedChar=="'"||scannedChar=='"'||
+                                 scannedChar=="."||scannedChar==","||
+                                 scannedChar=="("||scannedChar==")"||
+                                 scannedChar=="<"||scannedChar==">"||
+                                 scannedChar=="="||
+                                 scannedChar=="{"||scannedChar=="}"||
+                                 scannedChar=="["||scannedChar=="]"||
+                                 pos+i>=len){break;}
             
         }
         offsetA=pos+i+1;
 
 
-        scannerChar="";
+        scannedChar="";
         i=0;
         for(;;){
             scannedChar=textLine.slice(pos+i,pos+i+1);
             i++;
-            if(scannedChar!=" "||pos+i>=len){break;}
+            if(scannedChar!=" "||
+                                 scannedChar=="'"||scannedChar=='"'||
+                                 scannedChar=="."||scannedChar==","||
+                                 scannedChar=="("||scannedChar==")"||
+                                 scannedChar=="<"||scannedChar==">"||
+                                 scannedChar=="="||
+                                 scannedChar=="{"||scannedChar=="}"||
+                                 scannedChar=="["||scannedChar=="]"||
+                                 pos+i>=len){break;}
             
         }
         for(;;){
             scannedChar=textLine.slice(pos+i,pos+i+1); 
             i++; 
-            if(scannedChar==" "||pos+i>=len){break;}
+            if(scannedChar==" "||
+                                 scannedChar=="'"||scannedChar=='"'||
+                                 scannedChar=="."||scannedChar==","||
+                                 scannedChar=="("||scannedChar==")"||
+                                 scannedChar=="<"||scannedChar==">"||
+                                 scannedChar=="="||
+                                 scannedChar=="{"||scannedChar=="}"||
+                                 scannedChar=="["||scannedChar=="]"||
+                                 pos+i>=len){break;}
             
         }
         
@@ -1013,8 +1062,87 @@ function cleanInnerWord(){
 
    let textLine=node.childNodes[0].textContent;
    let len=textLine.length;
-   let offsetA=textLine.lastIndexOf(" ",pos);
-   let offsetB=textLine.indexOf(" ",pos);
+   //let offsetA=textLine.lastIndexOf(" ",pos);
+   //let offsetB=textLine.indexOf(" ",pos);
+
+
+console.log("TEXTLINE= "+textLine);
+
+
+
+   let offsetA=0;
+   let offsetB=0;
+   let scannedChar="";
+
+   let i=0;
+
+
+   scannedChar="";
+   i=0;
+   for(;;){
+         scannedChar=textLine.slice(pos-i-1,pos-i);
+         i++;
+         if(scannedChar==" "||scannedChar=="'"||scannedChar=='"'||scannedChar=="("||
+            scannedChar==')'||scannedChar==','||scannedChar=='<'||
+            scannedChar=='>'||scannedChar=='['||scannedChar==']'||
+            scannedChar=='='||pos-i<=0){break;}
+   }
+   offsetA=pos-i+1;
+
+console.log("OFFSETA= "+offsetA);
+
+
+
+   scannedChar="";
+   i=0;
+      //console.log("I: "+i);
+   for(;;){
+     scannedChar=textLine.slice(pos+i,pos+i+1);
+     //console.log("scannedChar: "+scannedChar);
+     i++;
+     if(scannedChar==" "||scannedChar=="'"||scannedChar=='"'||scannedChar=="("||
+            scannedChar==')'||scannedChar==','||scannedChar=='<'||
+            scannedChar=='>'||scannedChar=='['||scannedChar==']'||
+            scannedChar=='='||pos+i>=len){break;}
+   }
+   offsetB=pos+i-1;
+console.log("OFFSETB= "+offsetB);
+
+
+console.log("7002");
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   if(offsetA==-1){
+     offsetA=0;
+   }
+
 
    if(offsetB==-1){
      offsetB=len;
@@ -1046,8 +1174,72 @@ function selectInnerWord(){
 
    let textLine=node.childNodes[0].textContent;
    let len=textLine.length;
-   let offsetA=textLine.lastIndexOf(" ",pos);
-   let offsetB=textLine.indexOf(" ",pos);
+  // let offsetA=textLine.lastIndexOf(" ",pos);
+   //let offsetB=textLine.indexOf(" ",pos);
+
+
+console.log("TEXTLINE= "+textLine);
+
+
+
+   let offsetA=0;
+   let offsetB=0;
+   let scannedChar="";
+
+   let i=0;
+
+
+   scannedChar="";
+   i=0;
+   for(;;){
+         scannedChar=textLine.slice(pos-i-1,pos-i);
+         i++;
+         if(scannedChar==" "||scannedChar=="'"||scannedChar=='"'||scannedChar=="("||
+            scannedChar==')'||scannedChar==','||scannedChar=='<'||
+            scannedChar=='>'||scannedChar=='['||scannedChar==']'||
+            scannedChar=='='||pos-i<=0){break;}
+   }
+   offsetA=pos-i;
+
+console.log("OFFSETA= "+offsetA);
+
+
+
+   scannedChar="";
+   i=0;
+      //console.log("I: "+i);
+   for(;;){
+     scannedChar=textLine.slice(pos+i,pos+i+1);
+     //console.log("scannedChar: "+scannedChar);
+     i++;
+     if(scannedChar==" "||scannedChar=="'"||scannedChar=='"'||scannedChar=="("||
+            scannedChar==')'||scannedChar==','||scannedChar=='<'||
+            scannedChar=='>'||scannedChar=='['||scannedChar==']'||
+            scannedChar=='='||pos+i>=len){break;}
+   }
+   offsetB=pos+i-1;
+console.log("OFFSETB= "+offsetB);
+
+
+console.log("5002");
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   if(offsetA==-1){
+     offsetA=0;
+   }
+
 
    if(offsetB==-1){
      offsetB=len;
@@ -1120,8 +1312,12 @@ function undoByChar(){
 
     undo.push(stateOfLine);
 
-    if (undo.length > 100) {
-      let char=undo.pop();
+    if (undo.length > 1000) {
+      undo.pop();
+      undo.pop();
+      undo.pop();
+      undo.pop();
+      undo.pop();
     }
     
 }
@@ -1899,7 +2095,7 @@ function keysUP(event){
       let undoItem;
       undoItem=undo.pop();
       undoItem=undo.pop();
-      undoItem=undo.pop();
+      //undoItem=undo.pop();
 
 
       let pos=undoItem[2];
@@ -1912,7 +2108,17 @@ function keysUP(event){
 
       const lines=undoItem[0].split("\n");          
           
- 
+      if(undoItem[0].includes("kj")){
+        //alert("se entra aqui");
+        undoItem=undo.pop();
+        redo.push(undoItem);
+        undoItem=undo.pop();
+        redo.push(undoItem);
+        //undoItem=undo.pop();
+        //redo.push(undoItem);
+      
+          
+      }
 
 
       for(let l=0;l<lines.length;l++){
@@ -1928,17 +2134,7 @@ function keysUP(event){
 
       redo.push(undoItem);
       
-      if(undoItem[0].includes("kj")){
-        //alert("se entra aqui");
-        undoItem=undo.pop();
-        redo.push(undoItem);
-        undoItem=undo.pop();
-        redo.push(undoItem);
-        undoItem=undo.pop();
-        redo.push(undoItem);
       
-          
-      }
 
       
       //console.log("DEBUG: "+mainDiv.innerHTML);
@@ -1975,10 +2171,20 @@ function keysUP(event){
 
       let redoItem;
       redoItem=redo.pop();
+      redoItem=redo.pop();
 
       let pos=redoItem[2];
       let indexNode=redoItem[1];
 
+      
+      
+      if(redoItem[0].includes("kj")){
+        redoItem=redo.pop();
+        undo.push(redoItem);
+        redoItem=redo.pop();
+        undo.push(redoItem);
+      }
+      undo.push(redoItem);
 
 
       const lines=redoItem[0].split("\n");             
@@ -1999,14 +2205,7 @@ function keysUP(event){
 
 
      
-      redoItem=redo.pop();
-      undo.push(redoItem);
-      if(redoItem[0].includes("kj")){
-        redoItem=redo.pop();
-        undo.push(redoItem);
-        redoItem=redo.pop();
-        undo.push(redoItem);
-      }
+      
       
 
       let range=new Range();
@@ -2512,6 +2711,8 @@ function keysUP(event){
      }
      if(mode=="visualNormal"){
 
+       console.log("DEBUG 4000");
+
        let node=getCurrentNode();
        let pos=getCurrentCaretPos();
        let sel=document.getSelection();
@@ -2525,15 +2726,17 @@ function keysUP(event){
        let secondPart=node.childNodes[0].textContent.slice(offsetB,len);
        node.childNodes[0].textContent=firstPart+secondPart;
        
-       setCaretPosHere(node.childNodes[0],pos);
+       setCaretPosHere(node,pos);
 
        /*let range=new Range();  
-       range.setStart(node.childNodes[0],pos); 
-       range.setEnd(node.childNodes[0],pos);
+       range.setStart(node.,pos); 
+       range.setEnd(node,pos);
        document.getSelection().removeAllRanges(); 
        document.getSelection().addRange(range);*/
 
        //console.log(clipboard);
+
+       
      }
 
      if(mode=="normal"){
@@ -2541,6 +2744,7 @@ function keysUP(event){
      }
      mode="command";
      modo.value="COMMAND";
+     vaciarStack();
   }
 
 
@@ -2618,7 +2822,7 @@ function keysUP(event){
 
        let len=mainDiv.childNodes[pivote[1]].textContent.length;
 
-       setCaretPosHere(mainDiv.childNodes[pivote[1]],len);
+       setCaretPosHere(mainDiv.childNodes[pivote[1]],pivote[0]);
        stackKeys.pop();
      }
      if(mode=="visualNormal"){
@@ -2637,6 +2841,8 @@ function keysUP(event){
        node.childNodes[0].textContent=firstPart+secondPart;
        
        setCaretPosHere(node,pos);
+
+       
 
        
      }
