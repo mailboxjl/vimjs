@@ -223,6 +223,7 @@
 
   </div>
 </div>
+<script defer src="https://static.cloudflareinsights.com/beacon.min.js/v833ccba57c9e4d2798f2e76cebdd09a11778172276447" integrity="sha512-57MDmcccJXYtNnH+ZiBwzC4jb2rvgVCEokYN+L/nLlmO8rfYT/gIpW2A569iJ/3b+0UEasghjuZH/ma3wIs/EQ==" data-cf-beacon='{"version":"2024.11.0","token":"2be4b08cdb4a4bc1a80ded264bebe293","r":1,"server_timing":{"name":{"cfCacheStatus":true,"cfEdge":true,"cfExtPri":true,"cfL4":true,"cfOrigin":true,"cfSpeedBrain":true},"location_startswith":null}}' crossorigin="anonymous"></script>
 </body>
 
 
@@ -324,6 +325,9 @@ function getCurrentCaretPos(){
 }
 
 function moveCaretH(direction){
+
+
+    console.log("------START MOVECARETH--------");
 
     const pos=getCurrentCaretPos();
     const node=getCurrentNode(); 
@@ -580,6 +584,8 @@ function setCaretPosHere(node,pos){
 
 
 function moveByWord(numOfWords){
+
+     console.log("---- START MOVEBYWORD ----");
      
      let node=getCurrentNode().childNodes[0];
      let indexNode=getNodeIndex();
@@ -587,54 +593,14 @@ function moveByWord(numOfWords){
      
 
 
-
-/*
-     if(node.textContent.length==0){
-      let indexNode=getNodeIndex();
-      
-      setCaretPosHere(mainDiv.childNodes[indexNode+1],0);
-      mainDiv.removeChild(mainDiv.childNodes[indexNode]);
-      
-    } 
-
-
-     let posOfWord;
-     if(numOfWords<0){
-       posOfWord=node.textContent.slice(0,pos).lastIndexOf(" ",len);
-     }
-     if(numOfWords>0){
-       //let lastPart=node.textContent.slice(pos,len).concat(" ");
-       //console.log(lastPart);
-       //posOfWord=pos+lastPart.indexOf(" ",1);
-       posOfWord=node.textContent.indexOf(" ",pos);
-       console.log("POSOFWORD"+posOfWord);
-
-     } 
-
-*/
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-     
- 
-
      let posOfWord;
      let textLine=node.textContent;
+     console.log("MOVEBYWORD:TEXTLINE: "+textLine);
      let len=node.textContent.length;
+
+
+
+
 
      let offsetA=0;
      let offsetB=0;
@@ -666,9 +632,11 @@ function moveByWord(numOfWords){
         //console.log("I: "+i);
         for(;;){
             scannedChar=textLine.slice(pos+i,pos+i+1);
+            
             i++;
             if(scannedChar!=" "||scannedChar=="."||scannedChar=="("||scannedChar==","||pos+i>=len){break;}
         }
+        
         //console.log("I: "+i);
         for(;;){
             scannedChar=textLine.slice(pos+i,pos+i+1); 
@@ -676,8 +644,7 @@ function moveByWord(numOfWords){
             if(scannedChar==" "||scannedChar=="."||scannedChar=="("||scannedChar==","||pos+i>=len){break;}
         }
         offsetA=pos+i;
-        console.log("3015");        
-//console.log("I: "+i);
+        console.log("MOVEBYWORD:OFFSETA: "+offsetA);
      }
 
 
@@ -688,19 +655,7 @@ function moveByWord(numOfWords){
 
      posOfWord=offsetA;
 
-     //console.log("OFFSETA= "+offsetA);
-
-     //console.log("OFFSETB= "+offsetB);
-
-
-
-
-
-
-
-
-
-
+ 
      if(posOfWord<0&&numOfWords<0){
        indexNode-=1;
        posOfWord=mainDiv.childNodes[indexNode].firstChild.length;
@@ -718,11 +673,7 @@ function moveByWord(numOfWords){
        return;
      }
 
-     //console.log("INDEXNODE: "+indexNode);
-     //console.log("POSOFWORD: "+posOfWord);
-     //console.log("INNERHTML "+mainDiv.childNodes[indexNode].innerHTML);
-     //console.log("POS: "+pos);
-
+ 
     
      let range=new Range();
      range.setStart(mainDiv.childNodes[indexNode].firstChild,posOfWord);
@@ -731,37 +682,14 @@ function moveByWord(numOfWords){
      document.getSelection().addRange(range);
 
 
+      console.log("---- END MOVEBYWORD ----");
 
-
-/*
-
-
-     //console.log(posOfWord);
-     if(posOfWord==-1&&numOfWords<0){
-       posOfWord=0;
-     }
-     
-     if(posOfWord==(len-1)){
-       posOfWord=len;
-     }
-    
-     if(posOfWord==-1){
-       return;
-     }
-    
-     let range=new Range();
-     range.setStart(node,posOfWord);
-     range.setEnd(node,posOfWord);
-     document.getSelection().removeAllRanges(); 
-     document.getSelection().addRange(range);
-
-
-*/
 }
 
 
 function selectByWord(direction){
-     
+    
+    console.log("------START OF SELECTBYWORD------");
 
     let sel=window.getSelection();
     const offsetA=sel.getRangeAt(0).startOffset;
@@ -771,33 +699,109 @@ function selectByWord(direction){
     let pos=getCurrentCaretPos();
 
 
-    console.log("offsetA: "+offsetA+", offsetB: "+offsetB);
-    console.log("pivote[0]: "+pivote[0]+", pivote[1]: "+pivote[1]);
-    console.log("POS: "+pos);
+   
     
     moveByWord(direction);
     let startPos;
     let endPos;
-    let posOfWord;    
+    let posOfWord=0;    
+    
+console.clear();
 
-    if(direction<0){
-
+     if(direction<0){
        console.log("01: "+node.textContent.slice(0,pos));
-
        //posOfWord=node.textContent.slice(0,pos).lastIndexOf(" ",len);
        let firstPart=node.textContent.slice(0,offsetA);
-       posOfWord=firstPart.lastIndexOf(" ",len);
+       //posOfWord=firstPart.lastIndexOf(" ",len);
+
+// inicio de la modificacion
+       
+         console.log("POS: "+pos);
+         console.log("FIRSTPART: "+firstPart);
+         let scannedChar="";
+         let lenFirstPart=firstPart.length;
+
+         console.log("LENFIRSTPART: "+lenFirstPart);
+         if(direction<0){
+
+            scannedChar="";
+            i=0;
+            for(;;){
+                scannedChar=firstPart.slice(lenFirstPart-i-1,lenFirstPart-i);
+                console.log("SCANNEDCHAR: "+scannedChar);
+
+                i++;
+                if(scannedChar!=" "||scannedChar=="."||scannedChar=="("||scannedChar==","||lenFirstPart-i<=0){break;}
+            }
+            console.log("Change");
+            for(;;){
+                console.log("SCANNEDCHAR: "+scannedChar);
+
+                scannedChar=firstPart.slice(lenFirstPart-i-1,lenFirstPart-i); 
+                i++; 
+                if(scannedChar==" "||scannedChar=="."||scannedChar=="("||scannedChar==","||lenFirstPart-i<=0){break;}
+            }
+            //offset1=pos+i;
+            //console.log("MOVEBYWORD:OFFSETA: "+offsetA);
+            console.log("I: "+i);
+            console.log("POSOFWORD001: "+posOfWord);
+            posOfWord=pos-i;
+         }
+//fin de la modificacion
+
+
+
+
+
 
 
 
      }
-     if(direction>0){
-       console.log("02: "+node.textContent.slice(offsetB,len));
-       let lastPart=node.textContent.slice(offsetB,len).concat(" ");
-       posOfWord=offsetB+lastPart.indexOf(" ",1);
-     } 
 
-     console.log("posOfWord: "+posOfWord);
+
+
+
+     if(direction>0){
+         console.log("02: "+node.textContent.slice(offsetB,len));
+         let lastPart=node.textContent.slice(offsetB,len).concat(" ");
+         let lenLastPart=lastPart.length;
+         //posOfWord=offsetB+lastPart.indexOf(" ",1);
+
+// inicio de la modificacion
+         let scannedChar="";
+         if(direction>0){
+
+            scannedChar="";
+            i=0;
+            for(;;){
+                scannedChar=lastPart.slice(i,i+1);
+            
+                i++;
+                if(scannedChar!=" "||scannedChar=="."||scannedChar=="("||scannedChar==","||i>=lenLastPart){break;}
+            }
+        
+            //console.log("I: "+i);
+            for(;;){
+                scannedChar=lastPart.slice(i,i+1); 
+                i++; 
+                if(scannedChar==" "||scannedChar=="."||scannedChar=="("||scannedChar==","||i>=lenLastPart){break;}
+            }
+            //offset1=pos+i;
+            //console.log("MOVEBYWORD:OFFSETA: "+offsetA);
+
+            posOfWord=offsetB+i;
+         }
+//fin de la modificacion
+
+
+         
+     }
+
+
+//console.clear();
+
+ 
+     console.log("posOfWord2: "+posOfWord);
 
      if(posOfWord==-1&&direction<0){
        console.log("03");
@@ -815,8 +819,17 @@ function selectByWord(direction){
      }
     
 
+
     if(posOfWord>=pivote[0]){
+
+     
       console.log("06");
+console.log("POSOFWORD: "+posOfWord);
+console.log("PIVOTE[0]: "+pivote[0]);
+
+
+
+
       startPos=pivote[0];
       endPos=posOfWord;
     }
@@ -840,6 +853,8 @@ function selectByWord(direction){
     range.setEnd(node.childNodes[0],endPos);
     document.getSelection().removeAllRanges(); 
     document.getSelection().addRange(range); 
+
+    console.log("------END OF SELECTBYWORD------");
 
 }
 
@@ -1062,13 +1077,7 @@ function cleanInnerWord(){
 
    let textLine=node.childNodes[0].textContent;
    let len=textLine.length;
-   //let offsetA=textLine.lastIndexOf(" ",pos);
-   //let offsetB=textLine.indexOf(" ",pos);
-
-
-console.log("TEXTLINE= "+textLine);
-
-
+ 
 
    let offsetA=0;
    let offsetB=0;
@@ -1089,7 +1098,6 @@ console.log("TEXTLINE= "+textLine);
    }
    offsetA=pos-i+1;
 
-console.log("OFFSETA= "+offsetA);
 
 
 
@@ -1106,37 +1114,6 @@ console.log("OFFSETA= "+offsetA);
             scannedChar=='='||pos+i>=len){break;}
    }
    offsetB=pos+i-1;
-console.log("OFFSETB= "+offsetB);
-
-
-console.log("7002");
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
    if(offsetA==-1){
@@ -1148,12 +1125,13 @@ console.log("7002");
      offsetB=len;
    }
 
-   let newTextLine=textLine.slice(0,offsetA)+"\u00A0"+textLine.slice(offsetB,len);
+   //let newTextLine=textLine.slice(0,offsetA)+"\u00A0"+textLine.slice(offsetB,len);
+   let newTextLine=textLine.slice(0,offsetA)+""+textLine.slice(offsetB,len);
    node.childNodes[0].textContent=newTextLine;
 
    let range=new Range();  
-   range.setStart(node.childNodes[0],offsetA+1); 
-   range.setEnd(node.childNodes[0],offsetA+1);
+   range.setStart(node.childNodes[0],offsetA); 
+   range.setEnd(node.childNodes[0],offsetA);
    document.getSelection().removeAllRanges(); 
    document.getSelection().addRange(range);
 
@@ -1490,7 +1468,7 @@ mainDiv.addEventListener("keyup", function(event){
 
   if ((mode=="normal"||mode=="command")&&modo.value!="VisualBlock-Insert"){
        
-       undoByChar();
+      // undoByChar();
            
   }
 
@@ -1933,7 +1911,22 @@ function findFunctions(event){
 
 }
 
+function fixLines(){
+     const lines=mainDiv.textContent.split("\n");         
+             
+ 
+     for(let l=0;l<lines.length;l++){
+        console.log(lines[l]);
+        let div=document.createElement("div");
+        //let txt=document.createTextNode(lines[l].replace(/\s/g,"\u200b"));
+        //Si estas aqui es por el problema de los espacios. Ver white-space:pre;
+        let txt=document.createTextNode(lines[l]);
+  
+        div.appendChild(txt);
+        mainDiv.appendChild(div);
+     }
 
+}
 
 
 
@@ -2243,8 +2236,8 @@ function keysUP(event){
              newContent.textContent=textBefore+"  "+clipText+" "+textAfter,
              newDiv.appendChild(newContent),
              node.parentNode.replaceChild(newDiv,node),
-             range.setStart(mainDiv.childNodes[0].firstChild,pos+clipText.length+2),
-             range.setEnd(mainDiv.childNodes[0].firstChild,pos+clipText.length+2),
+             range.setStart(newDiv.childNodes[0],pos+clipText.length+2),
+             range.setEnd(newDiv.childNodes[0],pos+clipText.length+2),
              document.getSelection().removeAllRanges(),
              document.getSelection().addRange(range)
              ),
@@ -2259,6 +2252,10 @@ function keysUP(event){
 
      //node=getCurrentNode();
      //len=node.textContent.length;
+
+     
+
+    
      
 
 
@@ -4047,8 +4044,8 @@ function stackKeysFunction(event){
 
          console.log("Se entro a 'ciw'");
          cleanInnerWord();
-         mode="command";
-         modo.value="COMMAND";
+         //mode="command";
+         //modo.value="COMMAND";
          vaciarStack();
          
        }
